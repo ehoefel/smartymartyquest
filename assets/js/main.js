@@ -66,7 +66,7 @@
 			}
 
 	// Main.
-		var	delay = 325,
+		var	delay = 2250,
 			locked = false;
 
 		// Methods.
@@ -295,7 +295,9 @@
 					$('<div class="close">Close</div>')
 						.appendTo($this)
 						.on('click', function() {
+							setTimeout(function() {
 							location.hash = '';
+							}, 200 + Math.random() * 200);
 						});
 
 				// Prevent clicks from inside article from bubbling.
@@ -307,11 +309,6 @@
 
 		// Events.
 			$body.on('click', function(event) {
-
-				// Article visible? Hide.
-					if ($body.hasClass('is-article-visible'))
-						$main._hide(true);
-
 			});
 
 			$window.on('keyup', function(event) {
