@@ -1,0 +1,26 @@
+image: gitpod/workspace-full
+
+# Ports to expose on workspace startup
+ports:
+    - port: 1313
+      onOpen: open-preview
+      name: Website
+      description: Website Preview
+      visibility: private
+      protocol: https
+
+tasks:
+  - before: >
+      sudo apt-get install -y hugo &&
+      [[ ! -z $GITCONFIG  ]] &&
+      echo $GITCONFIG | base64 -d > ~/.gitconfig &&
+      chmod 644 ~/.gitconfig &&
+      mkdir -p ~/.ssh &&
+      [[ ! -z $SSH_PUBLIC_KEY  ]] &&
+      echo $SSH_PUBLIC_KEY > ~/.ssh/id_rsa.pub &&
+      chmod 644 ~/.ssh/id_rsa.pub &&
+      [[ ! -z $SSH_PRIVATE_KEY  ]] &&
+      echo $SSH_PRIVATE_KEY | base64 -d > ~/.ssh/id_rsa &&
+      chmod 600 ~/.ssh/id_rsa &&
+      ln -s /workspace/ehoefel.github.io/hugo.toml /workspace/ehoefel.github.io/config.toml
+      sed -i "s|https.*ehoefel.github.io.git|git@github.com:ehoefel/ehoefel.github.io.git|" /workspace/ehoefel.github.io/.git/config
