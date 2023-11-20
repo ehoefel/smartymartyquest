@@ -1564,6 +1564,7 @@ input, select, textarea {
 			background-color: rgba(27, 31, 34, 0.85);
 			border-radius: 4px;
 			opacity: 0;
+			box-shadow: 0rem 0rem 2rem 0.5rem black;
 		}
 
 			#main article.active {
@@ -1686,6 +1687,21 @@ input, select, textarea {
 
 		#main article nav.use-middle ul li.is-middle {
 			border-left: 0;
+		}
+
+		#main article .hero {
+			border-radius: 0;
+    			box-shadow: inset 0 0 2rem 3rem rgba(0,0,0,0.9);
+    			background-position: center;
+    			background-size: cover;
+    			height: 12rem;
+			display: block;
+			margin: 2.5rem 0;
+			filter: drop-shadow(2px 4px 6px black);
+		}
+
+		#main article#intro .hero {
+    			background-image: url(/images/intro.jpg);
 		}
 
 		@media screen and (max-width: 736px) {

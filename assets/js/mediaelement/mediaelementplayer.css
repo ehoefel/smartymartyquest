@@ -241,6 +241,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
     line-height: 0.625rem;
     margin: 0;
     width: 2rem;
+    filter: drop-shadow(2px 4px 6px black);
 }
 
 .mejs__button > button {
