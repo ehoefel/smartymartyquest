@@ -5,26 +5,36 @@
 */
 
 var intervals = {};
+var currPage = null;
 
 function unlockCheckpoint1() {
 	intervals['c1'] = setInterval(function() {
 		if (location.hash == "#intro") {
-			$("#checkpoint1")
+			showCheckpoint1();
+		}
+	}, 1000);
+}
+
+function showCheckpoint1() {
+	$("#checkpoint1:not(.active)").addClass("active")
 			.click(function() {
 				goToPuzzle(puzzles["c1"].goto);
 				setTimeout(function() {
 					$("#checkpoint1").removeClass("active");
 				}, 300);
 			})
-			.addClass("active")
 			.css("animation-duration", "" + ($(window).height() + $(window).width())/200 + "s");
-		}
-	}, 1000);
+}
+
+function hideCheckpoint1() {
+	alert(1);
+	$("#checkpoint1.active").removeClass("active").prop("onclick", null);
+
 }
 
 function lockCheckpoint1() {
 	intervals['c1'] && clearInterval(intervals['c1']);
-	$("#checkpoint1").removeClass("active").prop("onclick", null);
+	hideCheckpoint1();
 }
 
 
@@ -41,6 +51,7 @@ var puzzles = {
   //which iphone is this
   "intro": {
 	  "title": "Intro",
+	  "onleave": hideCheckpoint1,
 	  "goto": "p1",
 	  "content": {
 		  "type": "audio",
@@ -238,21 +249,29 @@ var puzzles = {
   },
 };
 	function getCurrPuzzle() {
-		return puzzles[location.hash.slice(1)];
+		return puzzles[currPage] || {};
 	}
 
-	function getPuzzleLink(index) {
-		return "#".concat(Object.keys(puzzles)[index]);
-	}
-	function goToPuzzle(link) {
-		location.hash = link;
+	function goToPage(id) {
+		if (id) {
+			var article = window.$main_articles.filter('#' + id);
+			if (article.length > 0) {
+				window.$main._show(id);
+			} else {
+				debugger;
+				window.$main._show("notfound");
+			}
+		} else {
+			window.$main._hide();
+		}
+		currPage = id;
 	};
 	function goToNextPuzzle() {
-		goToPuzzle(getCurrPuzzle().goto);
+		goToPage(getCurrPuzzle()?.goto);
 	};
 
 	function fail(reason) {
-		location.hash = "#fail";
+		goToPage("fail");
 
 	}
 
@@ -353,8 +372,14 @@ var puzzles = {
 		}
 
 
-		// Initialize.
+	// Initialize.
 
+	window.$window = $(window),
+	window.$body = $('body'),
+	window.$wrapper = $('#wrapper'),
+	window.$header = $('#header'),
+	window.$footer = $('#footer'),
+	window.$main = $('#main');
 
 	for (var i = 0; i < Object.keys(puzzles).length; i++) {
 			var id = Object.keys(puzzles)[i];
@@ -362,6 +387,7 @@ var puzzles = {
 			createArticle(id, puzzle);
 
 		}
+	window.$main_articles = window.$main.children('article');
 
 setInterval(function() {
 
@@ -396,18 +422,9 @@ setInterval(function() {
   // If the count down is over, write some text
   if (distance < 0) {
 	timer.setAttribute("running", "false");
-	$main._show(location.hash.substr(1));
+	window.$main._show(currPage);
   }
 }, 1000);
-
-
-	var	$window = $(window),
-		$body = $('body'),
-		$wrapper = $('#wrapper'),
-		$header = $('#header'),
-		$footer = $('#footer'),
-		$main = $('#main'),
-		$main_articles = $main.children('article');
 
 	// Breakpoints.
 		breakpoints({
@@ -422,7 +439,7 @@ setInterval(function() {
 	// Play initial animations on page load.
 		$window.on('load', function() {
 			window.setTimeout(function() {
-				$body.removeClass('is-preload');
+				window.$body.removeClass('is-preload');
 			}, 100);
 		});
 
@@ -437,10 +454,10 @@ setInterval(function() {
 
 				flexboxFixTimeoutId = setTimeout(function() {
 
-					if ($wrapper.prop('scrollHeight') > $window.height())
-						$wrapper.css('height', 'auto');
+					if (window.$wrapper.prop('scrollHeight') > $window.height())
+						window.$wrapper.css('height', 'auto');
 					else
-						$wrapper.css('height', '100vh');
+						window.$wrapper.css('height', '100vh');
 
 				}, 250);
 
@@ -449,7 +466,7 @@ setInterval(function() {
 		}
 
 	// Nav.
-		var $nav = $header.children('nav'),
+		var $nav = window.$header.children('nav'),
 			$nav_li = $nav.find('li');
 
 		// Add "middle" alignment classes if we're dealing with an even number of items.
@@ -465,9 +482,9 @@ setInterval(function() {
 			locked = false;
 
 		// Methods.
-			$main._show = function(id, initial) {
+			window.$main._show = function(id, initial, prev) {
 
-				var $article = $main_articles.filter('#' + id);
+				var $article = window.$main_articles.filter('#' + id);
 
 				// No such article? Bail.
 					if ($article.length == 0)
@@ -475,8 +492,14 @@ setInterval(function() {
 
 				var readywhen = $article.attr("readywhen");
 				if (readywhen && (new Date(readywhen).getTime() - new Date().getTime()) > 3) {
-					$article = $main_articles.filter('#notready');
+					$article = window.$main_articles.filter('#notready');
 					$("#timer").attr("date", readywhen);
+				}
+
+				var currPuzzle = puzzles[prev];
+				if (currPuzzle && currPuzzle.onleave) {
+					currPuzzle.onleave();
+
 				}
 
 				if (puzzles[id]) {
@@ -492,21 +515,21 @@ setInterval(function() {
 						if (locked || (id.length <= 1 && typeof initial != 'undefined' && initial === true)) {
 
 							// Mark as switching.
-								$body.addClass('is-switching');
+								window.$body.addClass('is-switching');
 
 							// Mark as visible.
-								$body.addClass('is-article-visible');
+								window.$body.addClass('is-article-visible');
 
 							// Deactivate all articles (just in case one's already active).
-								$main_articles.removeClass('active');
+								window.$main_articles.removeClass('active');
 
 							// Hide header, footer.
-								$header.hide();
-								$footer.hide();
+								window.$header.hide();
+								window.$footer.hide();
 								$("#loading").hide();
 
 							// Show main, article.
-								$main.show();
+								window.$main.show();
 								$article.show();
 
 							// Activate article.
@@ -517,7 +540,7 @@ setInterval(function() {
 
 							// Unmark as switching.
 								setTimeout(function() {
-									$body.removeClass('is-switching');
+									window.$body.removeClass('is-switching');
 								}, (initial ? 1000 : 0));
 
 							return;
@@ -528,10 +551,10 @@ setInterval(function() {
 						//locked = true;
 
 				// Article already visible? Just swap articles.
-					if ($body.hasClass('is-article-visible')) {
+					if (window.$body.hasClass('is-article-visible')) {
 
 						// Deactivate current article.
-							var $currentArticle = $main_articles.filter('.active');
+							var $currentArticle = window.$main_articles.filter('.active');
 
 							$currentArticle.removeClass('active');
 							$("#loading").addClass('active');
@@ -571,7 +594,7 @@ setInterval(function() {
 					else {
 
 						// Mark as visible.
-							$body
+							window.$body
 								.addClass('is-article-visible');
 							$("#loading").addClass('active');
 
@@ -579,12 +602,12 @@ setInterval(function() {
 							setTimeout(function() {
 
 								// Hide header, footer.
-									$header.hide();
-									$footer.hide();
+									window.$header.hide();
+									window.$footer.hide();
 									$("#loading").removeClass('active');
 
 								// Show main, article.
-									$main.show();
+									window.$main.show();
 									$article.show();
 
 								// Activate article.
@@ -610,12 +633,12 @@ setInterval(function() {
 
 			};
 
-			$main._hide = function(addState) {
+			window.$main._hide = function(addState) {
 
-				var $article = $main_articles.filter('.active');
+				var $article = window.$main_articles.filter('.active');
 
 				// Article not visible? Bail.
-					if (!$body.hasClass('is-article-visible'))
+					if (!window.$body.hasClass('is-article-visible'))
 						return;
 
 				// Add state?
@@ -629,27 +652,27 @@ setInterval(function() {
 						if (locked) {
 
 							// Mark as switching.
-								$body.addClass('is-switching');
+								window.$body.addClass('is-switching');
 
 							// Deactivate article.
 								$article.removeClass('active');
 
 							// Hide article, main.
 								$article.hide();
-								$main.hide();
+								window.$main.hide();
 
 							// Show footer, header.
-								$footer.show();
-								$header.show();
+								window.$footer.show();
+								window.$header.show();
 
 							// Unmark as visible.
-								$body.removeClass('is-article-visible');
+								window.$body.removeClass('is-article-visible');
 
 							// Unlock.
 								locked = false;
 
 							// Unmark as switching.
-								$body.removeClass('is-switching');
+								window.$body.removeClass('is-switching');
 
 							// Window stuff.
 								$window
@@ -672,18 +695,18 @@ setInterval(function() {
 
 						// Hide article, main.
 							$article.hide();
-							$main.hide();
+							window.$main.hide();
 
 						// Show footer, header.
 							$("#loading").removeClass('active');
 							setTimeout(function() {
-							$footer.show();
-							$header.show();
+							window.$footer.show();
+							window.$header.show();
 
 						// Unmark as visible.
 							setTimeout(function() {
 
-								$body.removeClass('is-article-visible');
+								window.$body.removeClass('is-article-visible');
 
 								// Window stuff.
 									$window
@@ -704,7 +727,7 @@ setInterval(function() {
 			};
 
 		// Articles.
-			$main_articles.each(function() {
+			window.$main_articles.each(function() {
 
 				var $this = $(this);
 
@@ -713,7 +736,7 @@ setInterval(function() {
 						.appendTo($this)
 						.on('click', function() {
 							setTimeout(function() {
-							location.hash = '';
+							goToPage(null);
 							}, 200 + Math.random() * 200);
 						});
 
@@ -725,100 +748,21 @@ setInterval(function() {
 			});
 
 		// Events.
-			$body.on('click', function(event) {
-			});
-
-			$window.on('keyup', function(event) {
-
-				switch (event.keyCode) {
-
-					case 27:
-
-						// Article visible? Hide.
-							if ($body.hasClass('is-article-visible'))
-								$main._hide(true);
-
-						break;
-
-					default:
-						break;
-
-				}
-
-			});
-
 			$window.on('hashchange', function(event) {
+				event.preventDefault();
+				event.stopPropagation();
 
-				// Empty hash?
-					if (location.hash == ''
-					||	location.hash == '#') {
+				if (location.hash.length <= 1)
+					return;
 
-						// Prevent default.
-							event.preventDefault();
-							event.stopPropagation();
+				var page = location.hash;
+				goToPage(page.substr(1));
 
-						// Hide.
-							$main._hide();
-
-					}
-
-				// Otherwise, check for a matching article.
-					else if ($main_articles.filter(location.hash).length > 0) {
-
-						// Prevent default.
-							event.preventDefault();
-							event.stopPropagation();
-
-						// Show article.
-							$main._show(location.hash.substr(1));
-
-					}
-					else {
-						// Prevent default.
-							event.preventDefault();
-							event.stopPropagation();
-
-						// Show article.
-							$main._show("notfound");
-
-					}
-
+				location.hash = "";
 			});
 
-		// Scroll restoration.
-		// This prevents the page from scrolling back to the top on a hashchange.
-			if ('scrollRestoration' in history)
-				history.scrollRestoration = 'manual';
-			else {
-
-				var	oldScrollPos = 0,
-					scrollPos = 0,
-					$htmlbody = $('html,body');
-
-				$window
-					.on('scroll', function() {
-
-						oldScrollPos = scrollPos;
-						scrollPos = $htmlbody.scrollTop();
-
-					})
-					.on('hashchange', function() {
-						$window.scrollTop(oldScrollPos);
-					});
-
-
-			}
-
-	$("#accept").attr("href", getPuzzleLink(0));
 			// Hide main, articles.
-				$main.hide();
-				$main_articles.hide();
-
-			// Initial article.
-				if (location.hash != ''
-				&&	location.hash != '#')
-					$window.on('load', function() {
-						$main._show(location.hash.substr(1), true);
-					});
+				window.$main.hide();
+				window.$main_articles.hide();
 
 })(jQuery);

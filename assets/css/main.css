@@ -1768,24 +1768,24 @@ input, select, textarea {
 @keyframes updown {
   0% {
     /*  the middle  */
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
   25% {
     /*  the middle  */
-    transform: translate3d(100vw, 25vh, 0);
+    transform: translate3d(calc(100vw - 2rem), 25vh, 0) rotate(45deg);
   }
   50% {
     /*  the middle  */
-    transform: translate3d(0vw, 50vh, 0);
+    transform: translate3d(0vw, 50vh, 0) rotate(-60deg);
   }
   75% {
     /*  the middle  */
-    transform: translate3d(100vw, 75vh, 0);
+    transform: translate3d(calc(100vw - 2rem), 75vh, 0) rotate(90deg);
   }
 
   100% {
     /*  the top  */
-    transform: translate3d(0, 100vh, 0);
+    transform: translate3d(0, calc(100vh - 2rem), 0) rotate(-115deg);
   }
 }
 
