@@ -1645,6 +1645,10 @@ input, select, textarea {
 
 		}
 
+		#main article .content .question {
+			margin: 0 !important;
+		}
+
 		#main article nav {
 				-moz-transition: max-height 0.75s ease, padding 0.75s ease, opacity 0.325s ease-in-out;
 				-webkit-transition: max-height 0.75s ease, padding 0.75s ease, opacity 0.325s ease-in-out;
@@ -1931,4 +1935,8 @@ input, select, textarea {
 		#main article#aW50 .hero {
     			height: 16rem;
 			background-position-y: 27%;
+		}
+
+		#main article#Vc1M .hero {
+			background-position-y: 46%;
 		}
