@@ -4,21 +4,24 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
-(function($) {
 
 
 var puzzles = {
   "aW50": {
 	  "title": "Puzzle #1",
 	  "readywhen": "Nov 21, 2023 07:31:25",
-	  "media": "audio",
+	  "content": "<p class=\"question\">What is the name of this painting?</p>",
 	  "response": {
 		  "type": "input",
 		  "data-type": "string",
-		  "accept": "yes"
+		  "validate": function(value) {
+			  return value.toLowerCase() == "The Treachery of Images".toLowerCase();
+		  }
 	  }
 	  },
   "Vc1M": {
+	  "title": "Puzzle #2",
+	  "readywhen": "Nov 21, 2023 10:31:25",
 	  },
   "MxTT": {
 	  },
@@ -59,27 +62,23 @@ var puzzles = {
   "MDky": {
 	  },
 };
+	function getCurrPuzzle() {
+		return Object.keys(puzzles).indexOf(location.hash.slice(1));
+		}
 
-/*
+	function getPuzzleLink(index) {
+		return "#".concat(Object.keys(puzzles)[index]);
+		}
+	function goToNextPuzzle() {
+		location.hash = getPuzzleLink(getCurrPuzzle()+1);
+	};
 
-<h2 class="major">Intro</h2>
-<div class="hero"></div>
-<audio class="mejs__player" width="100%" data-mejsoptions='{"stretching": "fill", "width": "100%", "alwaysShowControls": "true"}'>
-	<source src="https://filesamples.com/samples/audio/mp3/Symphony%20No.6%20(1st%20movement).mp3" type="audio/mp3">
-</audio>
+	function fail(reason) {
+		location.hash = "#fail";
 
-<div class="response">
-	<nav>
-		<ul>
-			<li><a id="accept">Accept</a></li>
-			<li><a href="#lalaal">Deny</a></li>
-		</ul>
-	</nav>
-</div>
+	}
 
-
-
-*/
+(function($) {
 
 	function createArticle(puzzleHash, puzzle) {
 			var number = Object.keys(puzzles).indexOf(hash)+1;
@@ -90,22 +89,48 @@ var puzzles = {
 			h2.classList.add("major");
 			h2.innerHTML = title;
 			article.appendChild(h2);
+
 			var hero = document.createElement("div");
 			hero.classList.add("hero");
 			hero.style.backgroundImage = "url(/puzzles/"+number+"/image.jpg)";
 			article.appendChild(hero);
+
+			var content = document.createElement("div");
+			content.classList.add("content");
+			content.innerHTML = puzzle.content;
+			article.appendChild(content);
+
+			var response = document.createElement("div");
+			response.classList.add("response");
+			article.appendChild(response);
+
+			if (puzzle.response && puzzle.response.type == "input") {
+				var input = document.createElement("input");
+				input.placeholder = "Answer";
+				response.appendChild(input);
+				var label = document.createElement("label");
+				label.innerHTML = "Answer";
+				response.appendChild(label);
+				var button = document.createElement("button");
+				button.innerHTML = "Enter";
+				button.onclick = function() {
+					if (puzzle.response.validate(input.value)) {
+						goToNextPuzzle();
+
+					}
+					else {
+						fail();
+					}
+				}
+				response.appendChild(button);
+			}
+
+
 			article.setAttribute("readywhen", puzzle.readywhen);
 			document.getElementById("main").appendChild(article);
 
 		}
 
-	function getCurrPuzzle() {
-		return Object.keys(puzzles).indexOf(location.hash.slice(1));
-		}
-
-	function getPuzzleLink(index) {
-		return "#".concat(Object.keys(puzzles)[index]);
-		}
 
 		// Initialize.
 
@@ -272,7 +297,7 @@ setInterval(function() {
 						}
 
 					// Lock.
-						locked = true;
+						//locked = true;
 
 				// Article already visible? Just swap articles.
 					if ($body.hasClass('is-article-visible')) {
@@ -408,10 +433,11 @@ setInterval(function() {
 						}
 
 					// Lock.
-						locked = true;
+						//locked = true;
 
 				// Deactivate article.
 					$article.removeClass('active');
+							$("#loading").addClass('active');
 
 				// Hide article.
 					setTimeout(function() {
@@ -421,6 +447,8 @@ setInterval(function() {
 							$main.hide();
 
 						// Show footer, header.
+							$("#loading").removeClass('active');
+							setTimeout(function() {
 							$footer.show();
 							$header.show();
 
@@ -440,6 +468,7 @@ setInterval(function() {
 									}, delay);
 
 							}, 25);
+							}, 725);
 
 					}, delay);
 

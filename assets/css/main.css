@@ -65,12 +65,14 @@ input::-moz-focus-inner {
 	padding: 0;
 }
 
+/*
 input, select, textarea {
 	-moz-appearance: none;
 	-webkit-appearance: none;
 	-ms-appearance: none;
 	appearance: none;
 }
+*/
 
 /* Basic */
 
@@ -386,6 +388,7 @@ input, select, textarea {
 		text-transform: uppercase;
 	}
 
+	/*
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
@@ -577,6 +580,7 @@ input, select, textarea {
 		color: rgba(255, 255, 255, 0.5) !important;
 		opacity: 1.0;
 	}
+	*/
 
 /* Box */
 
@@ -1519,9 +1523,11 @@ input, select, textarea {
 				}
 
 		}
-	#loading {
+
+			#loading {
 		position: absolute;
 		transition: opacity 0.725s ease-in-out;
+		transition-delay: 0.325s;
 		opacity: 0;
 		z-index: -1;
     		transform: translate(-50%, -50%);
@@ -1582,55 +1588,61 @@ input, select, textarea {
 			border-radius: 4px;
 			opacity: 0;
 			box-shadow: 0rem 0rem 2rem 0.5rem black;
+			font-family: "Source Sans Pro", sans-serif;
 		}
 
-			#main article.active {
-				-moz-transform: translateY(0);
-				-webkit-transform: translateY(0);
-				-ms-transform: translateY(0);
-				transform: translateY(0);
-				opacity: 1;
-			}
+		#main article.active {
+			-moz-transform: translateY(0);
+			-webkit-transform: translateY(0);
+			-ms-transform: translateY(0);
+			transform: translateY(0);
+			opacity: 1;
+		}
 
-			#main article .close {
+		#main article .close {
+			display: block;
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 4rem;
+			height: 4rem;
+			cursor: pointer;
+			text-indent: 4rem;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+			#main article .close:before {
+				-moz-transition: background-color 0.2s ease-in-out;
+				-webkit-transition: background-color 0.2s ease-in-out;
+				-ms-transition: background-color 0.2s ease-in-out;
+				transition: background-color 0.2s ease-in-out;
+				content: '';
 				display: block;
 				position: absolute;
-				top: 0;
-				right: 0;
-				width: 4rem;
-				height: 4rem;
-				cursor: pointer;
-				text-indent: 4rem;
-				overflow: hidden;
-				white-space: nowrap;
+				top: 0.75rem;
+				left: 0.75rem;
+				width: 2.5rem;
+				height: 2.5rem;
+				border-radius: 100%;
+				background-position: center;
+				background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' zoomAndPan='disable'%3E%3Cstyle%3Eline %7B stroke: %23ffffff%3B stroke-width: 1%3B %7D%3C/style%3E%3Cline x1='2' y1='2' x2='18' y2='18' /%3E%3Cline x1='18' y1='2' x2='2' y2='18' /%3E%3C/svg%3E");
+				background-size: 20px 20px;
+				background-repeat: no-repeat;
 			}
 
-				#main article .close:before {
-					-moz-transition: background-color 0.2s ease-in-out;
-					-webkit-transition: background-color 0.2s ease-in-out;
-					-ms-transition: background-color 0.2s ease-in-out;
-					transition: background-color 0.2s ease-in-out;
-					content: '';
-					display: block;
-					position: absolute;
-					top: 0.75rem;
-					left: 0.75rem;
-					width: 2.5rem;
-					height: 2.5rem;
-					border-radius: 100%;
-					background-position: center;
-					background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' zoomAndPan='disable'%3E%3Cstyle%3Eline %7B stroke: %23ffffff%3B stroke-width: 1%3B %7D%3C/style%3E%3Cline x1='2' y1='2' x2='18' y2='18' /%3E%3Cline x1='18' y1='2' x2='2' y2='18' /%3E%3C/svg%3E");
-					background-size: 20px 20px;
-					background-repeat: no-repeat;
-				}
+			#main article .close:hover:before {
+				background-color: rgba(255, 255, 255, 0.075);
+			}
 
-				#main article .close:hover:before {
-					background-color: rgba(255, 255, 255, 0.075);
-				}
+			#main article .close:active:before {
+				background-color: rgba(255, 255, 255, 0.175);
+			}
 
-				#main article .close:active:before {
-					background-color: rgba(255, 255, 255, 0.175);
-				}
+		#main article .content {
+			font-size: 1.2rem;
+
+		}
 
 		#main article .response {
 			padding-top: 1.5rem;
@@ -1746,10 +1758,68 @@ input, select, textarea {
     			color: cadetblue;
 		}
 
+		#main article .response {
+  			position: relative;
+  			padding: 15px 0 0;
+  			margin-top: 10px;
+  			width: 100%;
+		}
+
+		#main article .response input {
+  			width: calc(100% - 8rem);
+  			border: 0;
+  			border-bottom: 2px solid bisque;
+  			outline: 0;
+  			font-size: 1.3rem;
+  			color: white;
+  			padding-top: 7px;
+  			background: transparent;
+  			transition: border-color 0.2s;
+			text-transform: uppercase;
+			font-family: "Courier New", monospace;
+		}
+
+		#main article .response input::placeholder {
+			color: transparent;
+		}
+
+		#main article .response input:placeholder-shown ~ label {
+  		 	cursor: text;
+  		 	top: 23px;
+    			font-size: 1.2rem;
+    			font-weight: 300;
+    			height: 2.75rem;
+    			letter-spacing: 0.2rem;
+  		}
+
+		#main article .response label {
+ 			position: absolute;
+ 			top: 0;
+ 			display: block;
+ 			transition: 0.2s;
+ 			font-size: 1rem;
+ 			color: bisque;
+		}
+
+		#main article .response input:focus ~ label {
+			position: absolute;
+  			top: 0;
+  			display: block;
+  			transition: 0.2s;
+  			font-size: 1rem;
+		}
+
+		#main article .response button {
+			position: absolute;
+    right: 0;
+    color: bisque !important;
+    box-shadow: inset 0 0 0 1px bisque;
+		}
+
 		@media screen and (max-width: 736px) {
 
 			#main article {
-				padding: 3.5rem 2rem 0.5rem 2rem ;
+				padding: 3.5rem 2rem 2.5rem 2rem ;
 			}
 
 				#main article .close:before {
@@ -1806,8 +1876,8 @@ input, select, textarea {
 		body.is-preload #footer {
 			opacity: 0;
 		}
-
-.lds-ring {
+/* Animations */
+		.lds-ring {
   display: inline-block;
   position: relative;
   width: 80px;
@@ -1842,3 +1912,12 @@ input, select, textarea {
     transform: rotate(360deg);
   }
 }
+
+
+
+		/* Puzzle-specific */
+
+		#main article#aW50 .hero {
+    			height: 16rem;
+			background-position-y: 27%;
+		}
