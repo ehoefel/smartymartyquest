@@ -10,6 +10,7 @@
 var puzzles = {
   "aW50": {
 	  "title": "Puzzle #1",
+	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "media": "audio",
 	  "response": {
 		  "type": "input",
@@ -81,7 +82,7 @@ var puzzles = {
 */
 
 	function createArticle(puzzleHash, puzzle) {
-			var number = Object.keys(puzzles).indexOf(hash);
+			var number = Object.keys(puzzles).indexOf(hash)+1;
 			var article = document.createElement("article");
 			article.id = hash;
 			var title = puzzle.title;
@@ -91,8 +92,9 @@ var puzzles = {
 			article.appendChild(h2);
 			var hero = document.createElement("div");
 			hero.classList.add("hero");
-			hero.style.backgroundImage = "url(/puzzles/".concat(number).concat(")/image.jpg");
+			hero.style.backgroundImage = "url(/puzzles/"+number+"/image.jpg)";
 			article.appendChild(hero);
+			article.setAttribute("readywhen", puzzle.readywhen);
 			document.getElementById("main").appendChild(article);
 
 		}
@@ -114,6 +116,44 @@ var puzzles = {
 			createArticle(hash, puzzle);
 
 		}
+
+setInterval(function() {
+
+  var timer = document.getElementById("timer");
+  var countDownRunning = timer.getAttribute("running") == 'true';
+  if (!countDownRunning)
+	return;
+
+  var countDownDate = new Date(timer.getAttribute("date")).getTime();
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = Math.max(0, countDownDate - now);
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Output the result in an element with id="demo"
+  if (days > 0)
+  	days = days + "d ";
+  else
+	days = "";
+
+  timer.innerHTML = days + String(hours).padStart(2, "0") + ":"
+  + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+
+  // If the count down is over, write some text
+  if (distance < 0) {
+	timer.setAttribute("running", "false");
+	$main._show(location.hash.substr(1));
+  }
+}, 1000);
+
 
 	var	$window = $(window),
 		$body = $('body'),
@@ -187,10 +227,16 @@ var puzzles = {
 					if ($article.length == 0)
 						return;
 
+				var readywhen = $article.attr("readywhen");
+				if (readywhen && (new Date(readywhen).getTime() - new Date().getTime()) > 3) {
+					$article = $main_articles.filter('#notready');
+					$("#timer").attr("date", readywhen);
+				}
+
 				// Handle lock.
 
 					// Already locked? Speed through "show" steps w/o delays.
-						if (locked || (typeof initial != 'undefined' && initial === true)) {
+						if (locked || (id.length <= 1 && typeof initial != 'undefined' && initial === true)) {
 
 							// Mark as switching.
 								$body.addClass('is-switching');
@@ -204,6 +250,7 @@ var puzzles = {
 							// Hide header, footer.
 								$header.hide();
 								$footer.hide();
+								$("#loading").hide();
 
 							// Show main, article.
 								$main.show();
@@ -234,6 +281,7 @@ var puzzles = {
 							var $currentArticle = $main_articles.filter('.active');
 
 							$currentArticle.removeClass('active');
+							$("#loading").addClass('active');
 
 						// Show article.
 							setTimeout(function() {
@@ -242,6 +290,7 @@ var puzzles = {
 									$currentArticle.hide();
 
 								// Show article.
+									$("#loading").removeClass('active');
 									$article.show();
 
 								// Activate article.
@@ -271,6 +320,7 @@ var puzzles = {
 						// Mark as visible.
 							$body
 								.addClass('is-article-visible');
+							$("#loading").addClass('active');
 
 						// Show article.
 							setTimeout(function() {
@@ -278,6 +328,7 @@ var puzzles = {
 								// Hide header, footer.
 									$header.hide();
 									$footer.hide();
+									$("#loading").removeClass('active');
 
 								// Show main, article.
 									$main.show();

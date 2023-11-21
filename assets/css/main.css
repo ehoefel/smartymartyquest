@@ -1519,6 +1519,19 @@ input, select, textarea {
 				}
 
 		}
+	#loading {
+		position: absolute;
+		transition: opacity 0.725s ease-in-out;
+		opacity: 0;
+		z-index: -1;
+    		transform: translate(-50%, -50%);
+		top: 50%;
+		left: 50%;
+	}
+
+	#loading.active {
+		opacity: 1;
+	}
 
 /* Main */
 
@@ -1721,10 +1734,16 @@ input, select, textarea {
     			font-size: 4rem;
     			font-weight: bold;
     			filter: drop-shadow(2px 4px 6px black);
+			width: 100%;
+			white-space: nowrap;
 		}
 
 		#main article .image .message.error {
     			color: lightsalmon;
+		}
+
+		#main article .image .message.info {
+    			color: cadetblue;
 		}
 
 		@media screen and (max-width: 736px) {
@@ -1787,3 +1806,39 @@ input, select, textarea {
 		body.is-preload #footer {
 			opacity: 0;
 		}
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -19,6 +19,9 @@
 
 		<!-- Wrapper -->
 			<div id="wrapper">
+					<div id="loading">
+						<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+					</div>
 
 				<!-- Header -->
 					<header id="header">
@@ -67,6 +70,13 @@
 								        <span class="error message">404</span>
 								</span>
 							</article>
+							<article id="notready">
+								<h2 class="major">Not Available</h2>
+								<span class="image main">
+									<img src="images/pic02.jpg" alt="" />
+								        <span id="timer" class="info message" running="true" date="Nov 21, 2023 07:10:25"></span>
+								</span>
+							</article>
 							<article id="fail">
 								<h2 class="major">You Failed</h2>
 								<span class="image main">
@@ -102,17 +112,6 @@
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/mediaelement/mediaelement-and-player.min.js"></script>
                         <link rel="stylesheet" href="assets/js/mediaelement/mediaelementplayer.css" />
-			<style>
-.mejs__overlay-button {
-	background-image: url("assets/js/mediaelement/mejs-controls.svg");
-}
-.mejs__overlay-loading-bg-img {
-	background-image: url("assets/js/mediaelement/mejs-controls.svg");
-}
-.mejs__button > button {
-	background-image: url("assets/js/mediaelement/mejs-controls.svg");
-}
-</style>
 
 	</body>
 </html>
