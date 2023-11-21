@@ -1731,7 +1731,7 @@ input, select, textarea {
 		}
 
 		#main article#intro .hero {
-    			background-image: url(/images/intro.jpg);
+    			background-image: url(/images/intro.jpg) !important;
 		}
 
 		#main article .image {
@@ -1770,13 +1770,17 @@ input, select, textarea {
   			outline: 0;
   			font-size: 1.3rem;
   			color: white;
-  			padding-top: 4px;
-  			padding-bottom: 4px;
+  			padding: 4px 1rem;
   			background: transparent;
   			transition: border-color 0.2s;
 			text-transform: uppercase;
 			font-family: "Courier New", monospace;
 		}
+
+		input[type=number]::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+		}
+
 
 		#main article .response.input input::placeholder {
 			color: transparent;
@@ -1785,7 +1789,7 @@ input, select, textarea {
 		#main article .response.input input:placeholder-shown ~ label {
   		 	cursor: text;
 			top: 8px;
-    			left: 4px;
+    			left: 1rem;
     			font-size: 1.2rem;
     			font-weight: 300;
     			height: 2.75rem;

@@ -7,73 +7,109 @@
 
 
 var puzzles = {
+  "intro": {
+	  "title": "Intro",
+	  "content": {
+		  "type": "audio",
+		  "value": "https://filesamples.com/samples/audio/mp3/Symphony%20No.6%20(1st%20movement).mp3"
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "maybe",
+		      "I'll think about it",
+		],
+		"validate": function(value) {
+		        return value.toLowerCase() == "maybe";
+		}
+	  }
+  },
   "aW50": {
 	  "title": "Puzzle #1",
 	  "readywhen": "Nov 21, 2023 07:31:25",
-	  "content": "<p class=\"question\">What is the name of this painting?</p>",
-	  "response": {
-		  "type": "input",
-		  "data-type": "string",
-		  "validate": function(value) {
-			  return value.toLowerCase() == "The Treachery of Images".toLowerCase();
-		  }
-	  }
+	  "content": {
+		"type": "text",
+		"value": "What is the name of this painting?",
 	  },
+	  "response": {
+		"type": "input",
+		"datatype": "string",
+		"validate": function(value) {
+		        return value.toLowerCase() == "The Treachery of Images".toLowerCase();
+		}
+	  }
+  },
   "Vc1M": {
 	  "title": "Puzzle #2",
 	  "readywhen": "Nov 21, 2023 09:31:25",
-	  "content": "<p class=\"question\">In bowling, three strikes in a row is called?</p>",
+	  "content": {
+		"type": "text",
+		"value": "In bowling, three strikes in a row is called?",
+	  },
 	  "response": {
-		  "type": "multiple-choice",
-		  "options": [
-			"triple",
-			"turkey",
-			"triumph",
-			"trashed"
-		  ],
-		  "validate": function(value) {
-			  return value.toLowerCase() == "turkey";
-		  }
+		"type": "multiple-choice",
+		"options": [
+		      "triple",
+		      "turkey",
+		      "triumph",
+		      "trashed"
+		],
+		"validate": function(value) {
+		        return value.toLowerCase() == "turkey";
+		}
 	  }
-	  },
+  },
   "MxTT": {
+	  "title": "Puzzle #3",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "Which number follows the sequence above?",
 	  },
+	  "response": {
+		"type": "input",
+		"datatype": "number",
+		"validate": function(value) {
+		        return Number(value) === 13;
+		}
+	  }
+  },
   "UVDE": {
-	  },
+  },
   "RTE5": {
-	  },
+  },
   "TE5M": {
-	  },
+  },
   "E5Mj": {
-	  },
+  },
   "5Mjg": {
-	  },
+  },
   "Mjgz": {
-	  },
+  },
   "jgzM": {
-	  },
+  },
   "gzMD": {
-	  },
+  },
   "zMDk": {
-	  },
+  },
   "MDkx": {
-	  },
+  },
   "DkxO": {
-	  },
+  },
   "kxOD": {
-	  },
+  },
   "xODI": {
-	  },
+  },
   "ODI0": {
-	  },
+  },
   "DI0M": {
-	  },
+  },
   "I0MD": {
-	  },
+  },
   "0MDk": {
-	  },
+  },
   "MDky": {
-	  },
+  },
 };
 	function getCurrPuzzle() {
 		return Object.keys(puzzles).indexOf(location.hash.slice(1));
@@ -103,7 +139,7 @@ var puzzles = {
 (function($) {
 
 	function createArticle(puzzleHash, puzzle) {
-			var number = Object.keys(puzzles).indexOf(hash)+1;
+			var number = Object.keys(puzzles).indexOf(hash) - Object.keys(puzzles).indexOf("intro");
 			var article = document.createElement("article");
 			article.id = hash;
 			var title = puzzle.title;
@@ -117,10 +153,31 @@ var puzzles = {
 			hero.style.backgroundImage = "url(/puzzles/"+number+"/image.jpg)";
 			article.appendChild(hero);
 
-			var content = document.createElement("div");
-			content.classList.add("content");
-			content.innerHTML = puzzle.content;
-			article.appendChild(content);
+			if (puzzle.content) {
+				var content = document.createElement("div");
+				content.classList.add("content");
+				switch (puzzle.content.type) {
+					case "audio":
+						var audio = document.createElement("audio");
+						audio.classList.add("mejs__player");
+						audio.setAttribute("data-mejsoptions", '{"stretching": "fill", "width": "100%", "alwaysShowControls": "true"}');
+						var source = document.createElement("source");
+						source.src = puzzle.content.value;
+						source.type = "audio/mp3";
+						audio.appendChild(source);
+						content.appendChild(audio);
+						break;
+					case "text":
+						var p = document.createElement("p");
+						p.classList.add("question");
+						p.innerHTML = puzzle.content.value;
+						content.appendChild(p);
+						break;
+					default:
+						break;
+				}
+				article.appendChild(content);
+			}
 
 			if (puzzle.response) {
 				var response = document.createElement("div");
@@ -130,6 +187,7 @@ var puzzles = {
 					case "input":
 						var input = document.createElement("input");
 						input.placeholder = "Answer";
+						input.type = puzzle.response.datatype;
 						response.appendChild(input);
 						var label = document.createElement("label");
 						label.innerHTML = "Answer";
