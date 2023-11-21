@@ -4,6 +4,29 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+var intervals = {};
+
+function unlockCheckpoint1() {
+	intervals['c1'] = setInterval(function() {
+		if (location.hash == "#intro") {
+			$("#checkpoint1")
+			.click(function() {
+				goToPuzzle(puzzles["c1"].goto);
+				setTimeout(function() {
+					$("#checkpoint1").removeClass("active");
+				}, 300);
+			})
+			.addClass("active")
+			.css("animation-duration", "" + ($(window).height() + $(window).width())/200 + "s");
+		}
+	}, 1000);
+}
+
+function lockCheckpoint1() {
+	intervals['c1'] && clearInterval(intervals['c1']);
+	$("#checkpoint1").removeClass("active").prop("onclick", null);
+}
+
 
 
 var puzzles = {
@@ -11,12 +34,14 @@ var puzzles = {
   //2+2
   //how many in picture (0)
   //how many in picture (many)
-  //which of these is turkey
+  //which of these is not turkey
   //wifi password
   //click next
   //what was the previous puzzle number
+  //which iphone is this
   "intro": {
 	  "title": "Intro",
+	  "goto": "p1",
 	  "content": {
 		  "type": "audio",
 		  "value": "https://filesamples.com/samples/audio/mp3/Symphony%20No.6%20(1st%20movement).mp3"
@@ -32,8 +57,9 @@ var puzzles = {
 		}
 	  }
   },
-  "aW50": {
+  "p1": {
 	  "title": "Puzzle #1",
+	  "goto": "p2",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
 		"type": "text",
@@ -47,8 +73,9 @@ var puzzles = {
 		}
 	  }
   },
-  "Vc1M": {
+  "p2": {
 	  "title": "Puzzle #2",
+	  "goto": "p3",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
@@ -67,8 +94,9 @@ var puzzles = {
 		}
 	  }
   },
-  "MxTT": {
+  "p3": {
 	  "title": "Puzzle #3",
+	  "goto": "p4",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
@@ -82,8 +110,9 @@ var puzzles = {
 		}
 	  }
   },
-  "UVDE": {
+  "p4": {
 	  "title": "Puzzle #4",
+	  "goto": "p5",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
@@ -102,10 +131,11 @@ var puzzles = {
 		}
 	  }
   },
-  "RTE5": {
+  "p5": {
 	  "title": "Puzzle #5",
+	  "goto": "p6",
 	  "readywhen": "Nov 21, 2023 09:31:25",
-	  "imgtitle": "Those are alpacas :)",
+	  //"imgtitle": "Those are alpacas :)",
 	  "content": {
 		"type": "text",
 		"value": "How many llamas are in this picture?",
@@ -114,17 +144,73 @@ var puzzles = {
 		"type": "input",
 		"datatype": "number",
 		"validate": function(value) {
-		        return Number(value) == 0;
+		        return Number(value) == 9;
 		}
 	  }
   },
-  "TE5M": {
+  "p6": {
+	  "title": "Puzzle #6",
+	  "goto": "p7",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "How is this called?",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "Xbox",
+		      "X Series",
+		      "Xbox Series X",
+		      "Xbox 360 Pro",
+		],
+		"validate": function(value) {
+		        return value == "Xbox Series X";
+		}
+	  }
   },
-  "E5Mj": {
+  "p7": {
+	  "title": "Puzzle #?",
+	  "goto": "c1",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "What is the number of this puzzle?",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "6",
+		      "7",
+		      "8",
+		      "9",
+		],
+		"validate": function(value) {
+		        return Number(value) == 7;
+		}
+	  }
   },
-  "5Mjg": {
+  "c1": {
+	  "title": "Checkpoint",
+	  "goto": "p8",
+	  "onenter": unlockCheckpoint1,
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "audio",
+		"value": "",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "Continue",
+		],
+		"validate": function(value) {
+		        return true;
+		}
+	  }
   },
-  "Mjgz": {
+  "p8": {
+	  "readywhen": "Nov 21, 2023 17:31:25",
   },
   "jgzM": {
   },
@@ -152,14 +238,17 @@ var puzzles = {
   },
 };
 	function getCurrPuzzle() {
-		return Object.keys(puzzles).indexOf(location.hash.slice(1));
-		}
+		return puzzles[location.hash.slice(1)];
+	}
 
 	function getPuzzleLink(index) {
 		return "#".concat(Object.keys(puzzles)[index]);
-		}
+	}
+	function goToPuzzle(link) {
+		location.hash = link;
+	};
 	function goToNextPuzzle() {
-		location.hash = getPuzzleLink(getCurrPuzzle()+1);
+		goToPuzzle(getCurrPuzzle().goto);
 	};
 
 	function fail(reason) {
@@ -178,10 +267,9 @@ var puzzles = {
 
 (function($) {
 
-	function createArticle(puzzleHash, puzzle) {
-			var number = Object.keys(puzzles).indexOf(hash) - Object.keys(puzzles).indexOf("intro");
+	function createArticle(id, puzzle) {
 			var article = document.createElement("article");
-			article.id = hash;
+			article.id = id;
 			var title = puzzle.title;
 			var h2 = document.createElement("h2");
 			h2.classList.add("major");
@@ -190,7 +278,7 @@ var puzzles = {
 
 			var hero = document.createElement("div");
 			hero.classList.add("hero");
-			hero.style.backgroundImage = "url(/puzzles/"+number+"/image.jpg)";
+			hero.style.backgroundImage = "url(/puzzles/"+id+"/image.jpg)";
 			hero.title = puzzle.imgtitle;
 			article.appendChild(hero);
 
@@ -269,9 +357,9 @@ var puzzles = {
 
 
 	for (var i = 0; i < Object.keys(puzzles).length; i++) {
-			var hash = Object.keys(puzzles)[i];
-			var puzzle = puzzles[hash];
-			createArticle(hash, puzzle);
+			var id = Object.keys(puzzles)[i];
+			var puzzle = puzzles[id];
+			createArticle(id, puzzle);
 
 		}
 
@@ -389,6 +477,13 @@ setInterval(function() {
 				if (readywhen && (new Date(readywhen).getTime() - new Date().getTime()) > 3) {
 					$article = $main_articles.filter('#notready');
 					$("#timer").attr("date", readywhen);
+				}
+
+				if (puzzles[id]) {
+					if (puzzles[id].onenter) {
+						puzzles[id].onenter();
+					}
+
 				}
 
 				// Handle lock.
