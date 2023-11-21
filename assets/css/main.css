@@ -1641,11 +1641,7 @@ input, select, textarea {
 
 		#main article .content {
 			font-size: 1.2rem;
-
-		}
-
-		#main article .response {
-			padding-top: 1.5rem;
+			padding-bottom: 2rem;
 
 		}
 
@@ -1760,60 +1756,75 @@ input, select, textarea {
 
 		#main article .response {
   			position: relative;
-  			padding: 15px 0 0;
-  			margin-top: 10px;
   			width: 100%;
 		}
 
-		#main article .response input {
+		#main article .response.input input {
   			width: calc(100% - 8rem);
   			border: 0;
   			border-bottom: 2px solid bisque;
   			outline: 0;
   			font-size: 1.3rem;
   			color: white;
-  			padding-top: 7px;
+  			padding-top: 4px;
+  			padding-bottom: 4px;
   			background: transparent;
   			transition: border-color 0.2s;
 			text-transform: uppercase;
 			font-family: "Courier New", monospace;
 		}
 
-		#main article .response input::placeholder {
+		#main article .response.input input::placeholder {
 			color: transparent;
 		}
 
-		#main article .response input:placeholder-shown ~ label {
+		#main article .response.input input:placeholder-shown ~ label {
   		 	cursor: text;
-  		 	top: 23px;
+			top: 8px;
+    			left: 4px;
     			font-size: 1.2rem;
     			font-weight: 300;
     			height: 2.75rem;
     			letter-spacing: 0.2rem;
   		}
 
-		#main article .response label {
+		#main article .response.input label {
  			position: absolute;
- 			top: 0;
+ 			top: -1.5rem;
+			left: 0;
  			display: block;
  			transition: 0.2s;
  			font-size: 1rem;
  			color: bisque;
 		}
 
-		#main article .response input:focus ~ label {
+		#main article .response.input input:focus ~ label {
 			position: absolute;
-  			top: 0;
+ 			top: -1.5rem;
+			left: 0;
   			display: block;
   			transition: 0.2s;
   			font-size: 1rem;
 		}
 
-		#main article .response button {
+		#main article .response.input button {
 			position: absolute;
-    right: 0;
-    color: bisque !important;
-    box-shadow: inset 0 0 0 1px bisque;
+    			right: 0;
+    			color: bisque !important;
+    			box-shadow: inset 0 0 0 1px bisque;
+		}
+
+		#main article .response.multiple-choice {
+    			display: grid;
+    			grid-template-columns: repeat(2, 1fr);
+    			justify-content: space-between;
+    			align-content: space-between;
+    			gap: 1rem;
+		}
+
+		#main article .response.multiple-choice .option {
+    			color: bisque !important;
+    			box-shadow: inset 0 0 0 1px bisque;
 		}
 
 		@media screen and (max-width: 736px) {

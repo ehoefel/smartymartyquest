@@ -21,7 +21,20 @@ var puzzles = {
 	  },
   "Vc1M": {
 	  "title": "Puzzle #2",
-	  "readywhen": "Nov 21, 2023 10:31:25",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": "<p class=\"question\">In bowling, three strikes in a row is called?</p>",
+	  "response": {
+		  "type": "multiple-choice",
+		  "options": [
+			"triple",
+			"turkey",
+			"triumph",
+			"trashed"
+		  ],
+		  "validate": function(value) {
+			  return value.toLowerCase() == "turkey";
+		  }
+	  }
 	  },
   "MxTT": {
 	  },
@@ -78,6 +91,15 @@ var puzzles = {
 
 	}
 
+	function answerPuzzle(valid) {
+		if (valid) {
+			goToNextPuzzle();
+		}
+		else {
+			fail();
+		}
+	}
+
 (function($) {
 
 	function createArticle(puzzleHash, puzzle) {
@@ -100,29 +122,41 @@ var puzzles = {
 			content.innerHTML = puzzle.content;
 			article.appendChild(content);
 
-			var response = document.createElement("div");
-			response.classList.add("response");
-			article.appendChild(response);
-
-			if (puzzle.response && puzzle.response.type == "input") {
-				var input = document.createElement("input");
-				input.placeholder = "Answer";
-				response.appendChild(input);
-				var label = document.createElement("label");
-				label.innerHTML = "Answer";
-				response.appendChild(label);
-				var button = document.createElement("button");
-				button.innerHTML = "Enter";
-				button.onclick = function() {
-					if (puzzle.response.validate(input.value)) {
-						goToNextPuzzle();
-
-					}
-					else {
-						fail();
-					}
+			if (puzzle.response) {
+				var response = document.createElement("div");
+				response.classList.add("response");
+				response.classList.add(puzzle.response.type);
+				switch (puzzle.response.type) {
+					case "input":
+						var input = document.createElement("input");
+						input.placeholder = "Answer";
+						response.appendChild(input);
+						var label = document.createElement("label");
+						label.innerHTML = "Answer";
+						response.appendChild(label);
+						var button = document.createElement("button");
+						button.innerHTML = "Enter";
+						button.onclick = function() {
+							answerPuzzle(puzzle.response.validate(input.value));
+						}
+						response.appendChild(button);
+						break;
+					case "multiple-choice":
+						for (var i = 0; i < puzzle.response.options.length; i++) {
+							var option = puzzle.response.options[i];
+							var button = document.createElement("button");
+							button.classList.add("option");
+							button.innerHTML = option;
+							button.onclick = function(e) {
+								var value = e.target.innerHTML;
+								answerPuzzle(puzzle.response.validate(value));
+							};
+							response.appendChild(button);
+						}
+					default:
+						break;
 				}
-				response.appendChild(button);
+				article.appendChild(response);
 			}
 
 
