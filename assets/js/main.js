@@ -6,6 +6,115 @@
 
 (function($) {
 
+
+var puzzles = {
+  "aW50": {
+	  "title": "Puzzle #1",
+	  "media": "audio",
+	  "response": {
+		  "type": "input",
+		  "data-type": "string",
+		  "accept": "yes"
+	  }
+	  },
+  "Vc1M": {
+	  },
+  "MxTT": {
+	  },
+  "UVDE": {
+	  },
+  "RTE5": {
+	  },
+  "TE5M": {
+	  },
+  "E5Mj": {
+	  },
+  "5Mjg": {
+	  },
+  "Mjgz": {
+	  },
+  "jgzM": {
+	  },
+  "gzMD": {
+	  },
+  "zMDk": {
+	  },
+  "MDkx": {
+	  },
+  "DkxO": {
+	  },
+  "kxOD": {
+	  },
+  "xODI": {
+	  },
+  "ODI0": {
+	  },
+  "DI0M": {
+	  },
+  "I0MD": {
+	  },
+  "0MDk": {
+	  },
+  "MDky": {
+	  },
+};
+
+/*
+
+<h2 class="major">Intro</h2>
+<div class="hero"></div>
+<audio class="mejs__player" width="100%" data-mejsoptions='{"stretching": "fill", "width": "100%", "alwaysShowControls": "true"}'>
+	<source src="https://filesamples.com/samples/audio/mp3/Symphony%20No.6%20(1st%20movement).mp3" type="audio/mp3">
+</audio>
+
+<div class="response">
+	<nav>
+		<ul>
+			<li><a id="accept">Accept</a></li>
+			<li><a href="#lalaal">Deny</a></li>
+		</ul>
+	</nav>
+</div>
+
+
+
+*/
+
+	function createArticle(puzzleHash, puzzle) {
+			var number = Object.keys(puzzles).indexOf(hash);
+			var article = document.createElement("article");
+			article.id = hash;
+			var title = puzzle.title;
+			var h2 = document.createElement("h2");
+			h2.classList.add("major");
+			h2.innerHTML = title;
+			article.appendChild(h2);
+			var hero = document.createElement("div");
+			hero.classList.add("hero");
+			hero.style.backgroundImage = "url(/puzzles/".concat(number).concat(")/image.jpg");
+			article.appendChild(hero);
+			document.getElementById("main").appendChild(article);
+
+		}
+
+	function getCurrPuzzle() {
+		return Object.keys(puzzles).indexOf(location.hash.slice(1));
+		}
+
+	function getPuzzleLink(index) {
+		return "#".concat(Object.keys(puzzles)[index]);
+		}
+
+		// Initialize.
+
+
+	for (var i = 0; i < Object.keys(puzzles).length; i++) {
+			var hash = Object.keys(puzzles)[i];
+			var puzzle = puzzles[hash];
+			createArticle(hash, puzzle);
+
+		}
+
 	var	$window = $(window),
 		$body = $('body'),
 		$wrapper = $('#wrapper'),
@@ -356,6 +465,15 @@
 							$main._show(location.hash.substr(1));
 
 					}
+					else {
+						// Prevent default.
+							event.preventDefault();
+							event.stopPropagation();
+
+						// Show article.
+							$main._show("notfound");
+
+					}
 
 			});
 
@@ -380,10 +498,10 @@
 						$window.scrollTop(oldScrollPos);
 					});
 
+
 			}
 
-		// Initialize.
-
+	$("#accept").attr("href", getPuzzleLink(0));
 			// Hide main, articles.
 				$main.hide();
 				$main_articles.hide();
