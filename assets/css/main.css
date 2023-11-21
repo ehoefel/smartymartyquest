@@ -1944,3 +1944,8 @@ input, select, textarea {
 		#main article#Vc1M .hero {
 			background-position-y: 46%;
 		}
+
+		#main article#RTE5 .hero {
+    			height: 16rem;
+			background-position-y: 10%;
+		}

@@ -7,6 +7,14 @@
 
 
 var puzzles = {
+  //S'il vous plaît
+  //2+2
+  //how many in picture (0)
+  //how many in picture (many)
+  //which of these is turkey
+  //wifi password
+  //click next
+  //what was the previous puzzle number
   "intro": {
 	  "title": "Intro",
 	  "content": {
@@ -75,8 +83,40 @@ var puzzles = {
 	  }
   },
   "UVDE": {
+	  "title": "Puzzle #4",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "How many eyes does a honey bee have?",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "2",
+		      "3",
+		      "4",
+		      "5",
+		],
+		"validate": function(value) {
+		        return Number(value) == 5;
+		}
+	  }
   },
   "RTE5": {
+	  "title": "Puzzle #5",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "imgtitle": "Those are alpacas :)",
+	  "content": {
+		"type": "text",
+		"value": "How many llamas are in this picture?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "number",
+		"validate": function(value) {
+		        return Number(value) == 0;
+		}
+	  }
   },
   "TE5M": {
   },
@@ -151,6 +191,7 @@ var puzzles = {
 			var hero = document.createElement("div");
 			hero.classList.add("hero");
 			hero.style.backgroundImage = "url(/puzzles/"+number+"/image.jpg)";
+			hero.title = puzzle.imgtitle;
 			article.appendChild(hero);
 
 			if (puzzle.content) {
