@@ -80,7 +80,7 @@ var puzzles = {
 		"type": "input",
 		"datatype": "string",
 		"validate": function(value) {
-		        return value.toLowerCase() == "The Treachery of Images".toLowerCase();
+		        return value.toLowerCase().indexOf("Starry Night".toLowerCase()) >= 0;
 		}
 	  }
   },
@@ -127,18 +127,18 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "How many eyes does a honey bee have?",
+		"value": "DNA stands for",
 	  },
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
-		      "2",
-		      "3",
-		      "4",
-		      "5",
+		      "Deoxyribonucleic Acid",
+		      "Dioxonocteric Acid",
+		      "Deltanucleic Acid",
+		      "Deoxyribonappetit Acid",
 		],
 		"validate": function(value) {
-		        return Number(value) == 5;
+		        return value == "Deoxyribonucleic Acid";
 		}
 	  }
   },
@@ -221,19 +221,137 @@ var puzzles = {
 	  }
   },
   "p8": {
-	  "readywhen": "Nov 21, 2023 17:31:25",
+	  "title": "Puzzle #8",
+	  "goto": "p9",
+	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "content": {
+		"type": "text",
+		"value": "What is the name of this painting?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "string",
+		"validate": function(value) {
+		        return value.toLowerCase().indexOf("Treachery of Images".toLowerCase()) >= 0;
+		}
+	  }
   },
-  "jgzM": {
+  "p9": {
+	  "title": "Puzzle #9",
+	  "goto": "p10",
+	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "content": {
+		"type": "text",
+		"value": "What is the name of this movie?",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "Circus",
+		      "No Sorrow for Christine",
+		      "The Gamblers",
+		      "The Turkey"
+		],
+		"validate": function(value) {
+		        return value.toLowerCase() == "the turkey";
+		}
+	  }
   },
-  "gzMD": {
+  "p10": {
+	  "title": "Puzzle #10",
+	  "goto": "p11",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "Given that the area of the blue squares is <b>1</b>, what is the area of the yellow square?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "number",
+		"validate": function(value) {
+		        return Number(value) === 25;
+		}
+	  }
   },
-  "zMDk": {
+  "p11": {
+	  "title": "Puzzle #11",
+	  "goto": "p5",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "How many eyes does a honey bee have?",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "2",
+		      "3",
+		      "4",
+		      "5",
+		],
+		"validate": function(value) {
+		        return Number(value) == 5;
+		}
+	  }
   },
-  "MDkx": {
+  "p5": {
+	  "title": "Puzzle #5",
+	  "goto": "p6",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  //"imgtitle": "Those are alpacas :)",
+	  "content": {
+		"type": "text",
+		"value": "How many llamas are in this picture?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "number",
+		"validate": function(value) {
+		        return Number(value) == 9;
+		}
+	  }
   },
-  "DkxO": {
+  "p6": {
+	  "title": "Puzzle #6",
+	  "goto": "p7",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "How is this called?",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "Xbox",
+		      "X Series",
+		      "Xbox Series X",
+		      "Xbox 360 Pro",
+		],
+		"validate": function(value) {
+		        return value == "Xbox Series X";
+		}
+	  }
   },
-  "kxOD": {
+  "p7": {
+	  "title": "Puzzle #?",
+	  "goto": "c1",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "What is the number of this puzzle?",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "6",
+		      "7",
+		      "8",
+		      "9",
+		],
+		"validate": function(value) {
+		        return Number(value) == 7;
+		}
+	  }
   },
   "xODI": {
   },

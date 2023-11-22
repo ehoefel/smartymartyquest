@@ -1552,15 +1552,12 @@ input, select, textarea {
 			border-radius: 0;
     			box-shadow: inset 0 0 2rem 3rem rgba(0,0,0,0.9);
     			background-position: center;
-    			background-size: cover;
+    			background-size: 100% auto;
+			background-repeat: no-repeat;
     			height: 12rem;
 			display: block;
 			margin: 2.5rem 0;
 			filter: drop-shadow(2px 4px 6px black);
-		}
-
-		#main article#intro .hero {
-    			background-image: url(/images/intro.jpg) !important;
 		}
 
 		#main article .image {
@@ -1810,11 +1807,16 @@ input, select, textarea {
 			background-position-y: 27%;
 		}
 
-		#main article#Vc1M .hero {
-			background-position-y: 46%;
-		}
-
-		#main article#RTE5 .hero {
+		#main article#p8 .hero {
     			height: 16rem;
 			background-position-y: 10%;
+		}
+
+		#main article#p9 .hero {
+    			height: 16rem;
+			background-position-y: 73%;
+		}
+
+		#main article#p10 .hero {
+			height: 22rem;
 		}
