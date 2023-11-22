@@ -967,12 +967,13 @@ input, select, textarea {
 			-moz-transition: -moz-transform 0.325s ease-in-out, -moz-filter 0.325s ease-in-out;
 			-webkit-transition: -webkit-transform 0.325s ease-in-out, -webkit-filter 0.325s ease-in-out;
 			-ms-transition: -ms-transform 0.325s ease-in-out, -ms-filter 0.325s ease-in-out;
-			transition: transform 0.325s ease-in-out, filter 0.325s ease-in-out;
+			transition: transform 0.325s ease-in-out, filter 0.325s ease-in-out, opacity 5s ease-in-out;
 			background-image: url("../../images/bg.jpg");
 			background-position: center;
 			background-size: cover;
 			background-repeat: no-repeat;
 			z-index: 1;
+			opacity: 1;
 		}
 
 		body.is-article-visible #bg:after {
@@ -989,6 +990,17 @@ input, select, textarea {
 		body.is-preload #bg:before {
 			background-color: #000000;
 		}
+	#bg.changed {
+		background-image: url(https://static.vecteezy.com/system/resources/previews/001/962/117/non_2x/dark-red-abstract-blur-background-vector.jpg);
+    		background-position: center;
+
+	}
+	#bg.changed:after {
+    		opacity: 0;
+	}
+	#bg.changed.back:after {
+    		opacity: 1;
+	}
 
 /* Wrapper */
 
@@ -1058,9 +1070,44 @@ input, select, textarea {
 			opacity: 1;
 			animation: updown 4s infinite linear;
 			animation-direction: alternate;
-			    filter: drop-shadow(2px 4px 6px black);
-			    z-index: 10;
 		}
+
+		body #checkpoint2 {
+			position: absolute;
+			top: 75%;
+			left: calc(50% - 1.5rem);
+			width: 3rem;
+			height: 3rem;
+			opacity: 0;
+			transition: opacity 2s linear;
+    			transition-delay: 3s;
+			filter: drop-shadow(2px 4px 6px black);
+			z-index: 10;
+		}
+
+		body #checkpoint2.active {
+			opacity: 1;
+		}
+
+		body #checkpoint2.used {
+			opacity: 1;
+			animation: shake 0.5s;
+			animation-iteration-count: 10;
+		}
+
+		@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
 
 @-webkit-keyframes spin {
     0%  {-webkit-transform: rotate(0deg);}
@@ -1819,4 +1866,10 @@ input, select, textarea {
 
 		#main article#p10 .hero {
 			height: 22rem;
+		}
+
+		#main article#p12 .hero {
+			height: 16rem;
+		    	background-position-y: 35%;
+
 		}

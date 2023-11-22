@@ -27,12 +27,40 @@ function showCheckpoint1() {
 }
 
 function hideCheckpoint1() {
-	alert(1);
 	$("#checkpoint1.active").removeClass("active").prop("onclick", null);
 
 }
 
 function lockCheckpoint1() {
+	intervals['c1'] && clearInterval(intervals['c1']);
+	hideCheckpoint1();
+}
+
+function unlockCheckpoint2() {
+	intervals['c1'] = setInterval(function() {
+		if (location.hash == "#intro") {
+			showCheckpoint1();
+		}
+	}, 1000);
+}
+
+function showCheckpoint2() {
+	$("#checkpoint1:not(.active)").addClass("active")
+			.click(function() {
+				goToPuzzle(puzzles["c1"].goto);
+				setTimeout(function() {
+					$("#checkpoint1").removeClass("active");
+				}, 300);
+			})
+			.css("animation-duration", "" + ($(window).height() + $(window).width())/200 + "s");
+}
+
+function hideCheckpoint2() {
+	$("#checkpoint1.active").removeClass("active").prop("onclick", null);
+
+}
+
+function lockCheckpoint2() {
 	intervals['c1'] && clearInterval(intervals['c1']);
 	hideCheckpoint1();
 }
@@ -47,7 +75,6 @@ var puzzles = {
   //which of these is not turkey
   //wifi password
   //click next
-  //what was the previous puzzle number
   //which iphone is this
   "intro": {
 	  "title": "Intro",
@@ -146,7 +173,6 @@ var puzzles = {
 	  "title": "Puzzle #5",
 	  "goto": "p6",
 	  "readywhen": "Nov 21, 2023 09:31:25",
-	  //"imgtitle": "Those are alpacas :)",
 	  "content": {
 		"type": "text",
 		"value": "How many llamas are in this picture?",
@@ -242,18 +268,18 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
 		"type": "text",
-		"value": "What is the name of this movie?",
+		"value": "What is the English name of this movie?",
 	  },
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
 		      "Circus",
-		      "No Sorrow for Christine",
+		      "Fun Around",
 		      "The Gamblers",
 		      "The Turkey"
 		],
 		"validate": function(value) {
-		        return value.toLowerCase() == "the turkey";
+		        return value == "The Turkey";
 		}
 	  }
   },
@@ -275,7 +301,7 @@ var puzzles = {
   },
   "p11": {
 	  "title": "Puzzle #11",
-	  "goto": "p5",
+	  "goto": "p12",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
@@ -294,11 +320,11 @@ var puzzles = {
 		}
 	  }
   },
-  "p5": {
-	  "title": "Puzzle #5",
-	  "goto": "p6",
+  "p12": {
+	  "title": "Puzzle #12",
+	  "goto": "p13",
 	  "readywhen": "Nov 21, 2023 09:31:25",
-	  //"imgtitle": "Those are alpacas :)",
+	  "imgtitle": "Those are alpacas :)",
 	  "content": {
 		"type": "text",
 		"value": "How many llamas are in this picture?",
@@ -307,53 +333,70 @@ var puzzles = {
 		"type": "input",
 		"datatype": "number",
 		"validate": function(value) {
-		        return Number(value) == 9;
+		        return Number(value) == 0;
 		}
 	  }
   },
-  "p6": {
-	  "title": "Puzzle #6",
-	  "goto": "p7",
+  "p13": {
+	  "title": "Puzzle #13",
+	  "goto": "p14",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "How is this called?",
+		"value": "Which iPhone is this?",
 	  },
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
-		      "Xbox",
-		      "X Series",
-		      "Xbox Series X",
-		      "Xbox 360 Pro",
+		      "iPhone 12 Pro",
+		      "iPhone 13",
+		      "iPhone 13 Pro",
+		      "iPhone 14",
 		],
 		"validate": function(value) {
-		        return value == "Xbox Series X";
+		        return value == "iPhone 12 Pro";
 		}
 	  }
   },
-  "p7": {
-	  "title": "Puzzle #?",
-	  "goto": "c1",
+  "p14": {
+	  "title": "Puzzle #14",
+	  "goto": "c2",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "What is the number of this puzzle?",
+		"value": "Which one was not an option in Puzzle #9?",
 	  },
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
-		      "6",
-		      "7",
-		      "8",
-		      "9",
+		      "The Gamblers",
+		      "Clowns",
+		      "Fun Around",
+		      "Circus",
 		],
 		"validate": function(value) {
-		        return Number(value) == 7;
+		        return value == "Clowns";
 		}
 	  }
   },
-  "xODI": {
+  "c2": {
+	  "title": "Checkpoint",
+	  "goto": "intro",
+	  "onenter": unlockCheckpoint2,
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "audio",
+		"value": "",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "Continue",
+		],
+		"validate": function(value) {
+		        return true;
+		}
+	  }
   },
   "ODI0": {
   },
