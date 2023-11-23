@@ -405,6 +405,42 @@ var puzzles = {
   "e2": {
 	  "title": "Puzzle #-6",
 	  "goto": "e3",
+	  "onenter": function() {
+		var hero = document.querySelector("#e2 .hero");
+		var dragStart = {};
+		var dragEnd = {};
+
+		function heroMove(e){
+			var base = hero.getBoundingClientRect();
+			hero.style.position = 'relative';
+			var top = (e.clientY - dragStart.y + (dragEnd.y | 0));
+			var left = (e.clientX - dragStart.x + (dragEnd.x | 0));
+
+			hero.style.top = top + 'px';
+			hero.style.left = left + 'px';
+
+			if (Math.abs(top) > Math.abs(base.height * 0.25) || Math.abs(left) > Math.abs(base.width * 0.25))
+				hero.classList.add("moved");
+			else
+				hero.classList.remove("moved");
+		}
+
+		function mouseUp(e) {
+			dragEnd.x = Number(hero.style.left.substr(0, hero.style.left.length-2));
+			dragEnd.y = Number(hero.style.top.substr(0, hero.style.top.length-2));
+    			window.removeEventListener('mousemove', heroMove, true);
+		}
+
+		function mouseDown(e){
+			dragStart.x = e.x;
+			dragStart.y = e.y;
+  			window.addEventListener('mousemove', heroMove, true);
+		}
+
+		hero.addEventListener("mousedown", mouseDown, false);
+		window.addEventListener('mouseup', mouseUp, false);
+
+	  },
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",

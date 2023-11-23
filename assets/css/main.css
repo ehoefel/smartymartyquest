@@ -1904,13 +1904,19 @@ input, select, textarea {
 
 		#main article#e2 .hero {
 			height: 20rem;
-			transition: transform 2s ease-in-out;
-			position: relative;
 			z-index: 2;
+    			cursor: grab;
+			position: relative;
+			animation: shake 8s;
+			animation-delay: 15s;
+			animation-iteration-count: infinite;
 		}
 
 		#main article#e2 .hero:hover {
-			transform: translateX(-100%);
+		}
+
+		#main article#e2 .hero.moved {
+			animation: none;
 		}
 
 		#main article#e2 .response button {
