@@ -1488,32 +1488,36 @@ input, select, textarea {
 			white-space: nowrap;
 		}
 
-			#main article .close:before {
-				-moz-transition: background-color 0.2s ease-in-out;
-				-webkit-transition: background-color 0.2s ease-in-out;
-				-ms-transition: background-color 0.2s ease-in-out;
-				transition: background-color 0.2s ease-in-out;
-				content: '';
-				display: block;
-				position: absolute;
-				top: 0.75rem;
-				left: 0.75rem;
-				width: 2.5rem;
-				height: 2.5rem;
-				border-radius: 100%;
-				background-position: center;
-				background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' zoomAndPan='disable'%3E%3Cstyle%3Eline %7B stroke: %23ffffff%3B stroke-width: 1%3B %7D%3C/style%3E%3Cline x1='2' y1='2' x2='18' y2='18' /%3E%3Cline x1='18' y1='2' x2='2' y2='18' /%3E%3C/svg%3E");
-				background-size: 20px 20px;
-				background-repeat: no-repeat;
-			}
+		#main article .close:before {
+			-moz-transition: background-color 0.2s ease-in-out;
+			-webkit-transition: background-color 0.2s ease-in-out;
+			-ms-transition: background-color 0.2s ease-in-out;
+			transition: background-color 0.2s ease-in-out;
+			content: '';
+			display: block;
+			position: absolute;
+			top: 0.75rem;
+			left: 0.75rem;
+			width: 2.5rem;
+			height: 2.5rem;
+			border-radius: 100%;
+			background-position: center;
+			background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' zoomAndPan='disable'%3E%3Cstyle%3Eline %7B stroke: %23ffffff%3B stroke-width: 1%3B %7D%3C/style%3E%3Cline x1='2' y1='2' x2='18' y2='18' /%3E%3Cline x1='18' y1='2' x2='2' y2='18' /%3E%3C/svg%3E");
+			background-size: 20px 20px;
+			background-repeat: no-repeat;
+		}
 
-			#main article .close:hover:before {
-				background-color: rgba(255, 255, 255, 0.075);
-			}
+		#main article .close:hover:before {
+			background-color: rgba(255, 255, 255, 0.075);
+		}
 
-			#main article .close:active:before {
-				background-color: rgba(255, 255, 255, 0.175);
-			}
+		#main article .close:active:before {
+			background-color: rgba(255, 255, 255, 0.175);
+		}
+
+		#main article .clickable {
+			cursor: pointer;
+		}
 
 		#main article .content {
 			font-size: 1.2rem;
@@ -1646,7 +1650,6 @@ input, select, textarea {
   			padding: 4px 1rem;
   			background: transparent;
   			transition: border-color 0.2s;
-			text-transform: uppercase;
 			font-family: "Courier New", monospace;
 		}
 
@@ -1710,6 +1713,18 @@ input, select, textarea {
 		#main article .response.multiple-choice .option {
     			color: bisque !important;
     			box-shadow: inset 0 0 0 1px bisque;
+		}
+
+		#main article .response.multiple-choice .option input {
+			background: transparent;
+    			border: none;
+    			font: inherit;
+    			color: inherit;
+    			text-transform: inherit;
+    			line-height: inherit;
+    			text-align: inherit;
+    			font-size: inherit;
+    			letter-spacing: inherit;
 		}
 
 		@media screen and (max-width: 736px) {
@@ -1873,3 +1888,63 @@ input, select, textarea {
 		    	background-position-y: 35%;
 
 		}
+
+		#main article#e1 .response input {
+			text-transform: none;
+		}
+
+		#main article#e2 .hero {
+			height: 20rem;
+			transition: transform 2s ease-in-out;
+			position: relative;
+			z-index: 2;
+		}
+
+		#main article#e2 .hero:hover {
+			transform: translateX(-100%);
+		}
+
+		#main article#e2 .response button {
+			color: transparent !important;
+    			background-repeat: no-repeat;
+    			background-size: cover;
+    			background-position-x: center;
+    		}
+
+		#main article#e2 .response button:nth-child(1) {
+    			background-image: url(https://cdn.pixabay.com/photo/2017/10/22/10/59/turkeys-2877464__180.jpg);
+    			background-position-y: 42%;
+    		}
+
+		#main article#e2 .response button:nth-child(2) {
+    			background-image: url(https://www.international.uni-halle.de/im/1384789831_1938_0.jpg);
+    			background-position-y: 49%;
+    		}
+
+		#main article#e2 .response button:nth-child(3) {
+			background-image: url(https://s.clipartkey.com/mpngs/s/243-2436181_bowling-stones-bowling-strike.png);
+    			background-position-y: 60%;
+    		}
+
+		#main article#e2 .response button:nth-child(3) {
+			background-image: url(https://s.clipartkey.com/mpngs/s/243-2436181_bowling-stones-bowling-strike.png);
+    			background-position-y: 60%;
+    		}
+
+		#main article#e2 .response button:nth-child(4) {
+			background-image: url(https://upload.wikimedia.org/wikipedia/en/1/16/The_Turkey_%28film%29.jpg);
+    			background-position-y: 89%;
+    		}
+
+		#main article#e2 .response button:nth-child(5) {
+			position: absolute;
+    			z-index: 1;
+    			right: 35%;
+    			width: 28%;
+    			top: -19rem;
+    			background-image: url(https://cdn.pixabay.com/photo/2017/05/31/22/56/the-hen-2361934_960_720.png);
+    			height: 10rem;
+    			box-shadow: none;
+    			filter: drop-shadow(2px 4px 6px black);
+    		}
+

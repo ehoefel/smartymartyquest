@@ -18,7 +18,7 @@ function unlockCheckpoint1() {
 function showCheckpoint1() {
 	$("#checkpoint1:not(.active)").addClass("active")
 			.click(function() {
-				goToPuzzle(puzzles["c1"].goto);
+				goToPage(puzzles["c1"].goto);
 				setTimeout(function() {
 					$("#checkpoint1").removeClass("active");
 				}, 300);
@@ -47,7 +47,7 @@ function unlockCheckpoint2() {
 function showCheckpoint2() {
 	$("#checkpoint1:not(.active)").addClass("active")
 			.click(function() {
-				goToPuzzle(puzzles["c2"].goto);
+				goToPage(puzzles["c2"].goto);
 				setTimeout(function() {
 					$("#checkpoint1").removeClass("active");
 				}, 300);
@@ -342,7 +342,7 @@ var puzzles = {
 		"options": [
 		],
 		"validate": function(value) {
-		        return value == "iPhone 12 Pro";
+		        return value.toLowerCase() == "iphone 12 pro";
 		}
 	  }
   },
@@ -408,24 +408,25 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "Which one of these is not a turkey",
+		"value": "Which one of these is not a kind of Turkey",
   //which of these is not turkey
 	  },
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
-		      "img1",
-		      "img2",
-		      "img3",
-		      "img4"
+		      "turkey",
+		      "turkey",
+		      "turkey",
+		      "turkey",
+		      "chicken"
 		],
 		"validate": function(value) {
-		        return false;
+		        return value.toLowerCase() !== "turkey";
 		}
 	  }
   },
   "e3": {
-	  "title": "Puzzle #-<span onclick=\"goToPuzzle('e4')\">5</span>",
+	  "title": "Puzzle #-<span class=\"clickable\" onclick=\"goToPage('e4')\">5</span>",
 	  "goto": "e4",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -472,7 +473,7 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "How <span onclick=\"goToPuzzle('e6')\">many</span> grains of sand are in this picture?",
+		"value": "How <span class=\"clickable\" onclick=\"goToPage('e6')\">many</span> grains of sand are in this picture?",
 	  },
 	  "response": {
 		"type": "input",
@@ -495,11 +496,11 @@ var puzzles = {
 		"options": [
 		      "iPhone 10",
 		      "iPhone 11",
-		      "iPhone 12",
+		      "<input value=\"iPhone 12\"/>",
 		      "iPhone 13",
 		],
 		"validate": function(value) {
-		        return value == "iPhone 12 Pro";
+		        return value.toLowerCase() == "iphone 12 pro";
 		}
 	  }
   },
@@ -507,23 +508,21 @@ var puzzles = {
   "e7": {
 	  "title": "Puzzle #-1",
 	  "goto": "c3",
-    "onenter": function() {
-      alert(1);
-
-
-    },
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "Click Pass",
+		"value": "Which character kills two people in the season 2 of Lost?",
 	  },
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
-		      "Fail",
+			"Michael",
+			"Ana-Lucia",
+			"Sayid",
+			"Kate",
 		],
 		"validate": function(value) {
-		        return value == "Pass";
+		        return value == "Michael";
 		}
 	  }
   },
@@ -634,7 +633,12 @@ var puzzles = {
 							button.classList.add("option");
 							button.innerHTML = option;
 							button.onclick = function(e) {
+								if (e.target !== this || !e.pointerType)
+									return;
+								console.log(e);
 								var value = e.target.innerHTML;
+								if (e.target.firstChild.nodeName == "INPUT")
+									value = e.target.firstChild.value;
 								answerPuzzle(puzzle.response.validate(value));
 							};
 							response.appendChild(button);
