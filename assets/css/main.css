@@ -1519,6 +1519,10 @@ input, select, textarea {
 			cursor: pointer;
 		}
 
+		#main article .clickable:hover {
+			color: bisque;
+		}
+
 		#main article .content {
 			font-size: 1.2rem;
 			padding-bottom: 2rem;
@@ -1728,6 +1732,8 @@ input, select, textarea {
     			text-align: inherit;
     			font-size: inherit;
     			letter-spacing: inherit;
+			outline: none;
+    			caret-color: bisque;
 		}
 
 		@media screen and (max-width: 736px) {
@@ -1955,4 +1961,8 @@ input, select, textarea {
 			display: inline;
     			cursor: grab;
     			font-weight: bold;
+    			position: absolute;
+    			top: 0.05rem;
+    			left: 10.68rem;
+    			font-size: 1rem;
 		}

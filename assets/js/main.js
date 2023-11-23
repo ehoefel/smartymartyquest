@@ -452,15 +452,15 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": '<div draggable="true" class="draggable" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);">ˆ</div>How do you spell <em>Sí-wu-plate</em> properly?',
+		"value": '<span draggable="true" class="draggable" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);">ˆ</span>How do you spell <em>Sí-wu-plate</em> properly?',
 	  },
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
 		      'S\'il vous <span ondrop="drop_handler(event);" ondragover="dragover_handler(event);">plait</span>',
-		      "San vu plot",
+		      "Si vou play",
 		      "Si vouw plant",
-		      "Sail vur please",
+		      "See who please",
 		],
 		"validate": function(value) {
 		        return value == "S'il vous plaît";
@@ -1063,6 +1063,8 @@ function drop_handler(ev) {
   console.log("Drop");
   ev.preventDefault();
   ev.target.parentNode.innerHTML = "S'il vous plaît";
+  var src = document.querySelectorAll('.draggable')[0];
+  src.parentNode.removeChild(src);
 }
 function dragend_handler(ev) {
   console.log("dragEnd");
