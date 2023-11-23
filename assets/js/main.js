@@ -47,7 +47,7 @@ function unlockCheckpoint2() {
 function showCheckpoint2() {
 	$("#checkpoint1:not(.active)").addClass("active")
 			.click(function() {
-				goToPuzzle(puzzles["c1"].goto);
+				goToPuzzle(puzzles["c2"].goto);
 				setTimeout(function() {
 					$("#checkpoint1").removeClass("active");
 				}, 300);
@@ -68,14 +68,6 @@ function lockCheckpoint2() {
 
 
 var puzzles = {
-  //S'il vous plaît
-  //2+2
-  //how many in picture (0)
-  //how many in picture (many)
-  //which of these is not turkey
-  //wifi password
-  //click next
-  //which iphone is this
   "intro": {
 	  "title": "Intro",
 	  "onleave": hideCheckpoint1,
@@ -122,13 +114,13 @@ var puzzles = {
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
-		      "triple",
-		      "turkey",
-		      "triumph",
-		      "trashed"
+		      "Triple",
+		      "Turkey",
+		      "Triumph",
+		      "Trashed"
 		],
 		"validate": function(value) {
-		        return value.toLowerCase() == "turkey";
+		        return value == "Turkey";
 		}
 	  }
   },
@@ -338,20 +330,16 @@ var puzzles = {
 	  }
   },
   "p13": {
-	  "title": "Puzzle #13",
+	  "title": "Puzzle #13 - REDO",
 	  "goto": "p14",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "Which iPhone is this?",
+		"value": "",
 	  },
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
-		      "iPhone 12 Pro",
-		      "iPhone 13",
-		      "iPhone 13 Pro",
-		      "iPhone 14",
 		],
 		"validate": function(value) {
 		        return value == "iPhone 12 Pro";
@@ -381,7 +369,7 @@ var puzzles = {
   },
   "c2": {
 	  "title": "Checkpoint",
-	  "goto": "intro",
+	  "goto": "",
 	  "onenter": unlockCheckpoint2,
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -398,15 +386,146 @@ var puzzles = {
 		}
 	  }
   },
-  "ODI0": {
+  "e1": {
+	  "title": "Puzzle #-7",
+	  "goto": "e2",
+	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "content": {
+		"type": "text",
+		"value": "What is your WiFi password?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "string",
+		"validate": function(value) {
+		        return ["it'sreallycomplicateD6969", "it'sverycomplicateD6969"].indexOf(value) >= 0;
+		}
+	  }
   },
-  "DI0M": {
+  "e2": {
+	  "title": "Puzzle #-6",
+	  "goto": "e3",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "Which one of these is not a turkey",
+  //which of these is not turkey
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "img1",
+		      "img2",
+		      "img3",
+		      "img4"
+		],
+		"validate": function(value) {
+		        return false;
+		}
+	  }
   },
-  "I0MD": {
+  "e3": {
+	  "title": "Puzzle #-<span onclick=\"goToPuzzle('e4')\">5</span>",
+	  "goto": "e4",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "2+2",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "2",
+		      "3",
+		      "4",
+		      "6"
+		],
+		"validate": function(value) {
+		        return Number(value) == 5;
+		}
+	  }
   },
-  "0MDk": {
+  "e4": {
+	  "title": "Puzzle #-4",
+	  "goto": "e5",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "How do you spell <em>Sí-wu-plate</em> properly?",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "S'il vous plait",
+		      "San vu plot",
+		      "Si vouw plant",
+		      "Sail vur please",
+		],
+		"validate": function(value) {
+		        return value == "S'il vous plaît";
+		}
+	  }
   },
-  "MDky": {
+  "e5": {
+	  "title": "Puzzle #-3",
+	  "goto": "e6",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "How <span onclick=\"goToPuzzle('e6')\">many</span> grains of sand are in this picture?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "number",
+		"validate": function(value) {
+		        return false;
+		}
+	  }
+  },
+  "e6": {
+	  "title": "Puzzle #-2",
+	  "goto": "e7",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "Which iPhone is this?",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "iPhone 10",
+		      "iPhone 11",
+		      "iPhone 12",
+		      "iPhone 13",
+		],
+		"validate": function(value) {
+		        return value == "iPhone 12 Pro";
+		}
+	  }
+  },
+  //click next
+  "e7": {
+	  "title": "Puzzle #-1",
+	  "goto": "c3",
+    "onenter": function() {
+      alert(1);
+
+
+    },
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "Click Pass",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "Fail",
+		],
+		"validate": function(value) {
+		        return value == "Pass";
+		}
+	  }
   },
 };
 	function getCurrPuzzle() {
