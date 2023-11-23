@@ -1663,6 +1663,7 @@ input, select, textarea {
 		}
 
 		#main article .response.input input:placeholder-shown ~ label {
+			pointer-events: none;
   		 	cursor: text;
 			top: 8px;
     			left: 1rem;
@@ -1673,6 +1674,7 @@ input, select, textarea {
   		}
 
 		#main article .response.input label {
+			pointer-events: none;
  			position: absolute;
  			top: -1.5rem;
 			left: 0;
@@ -1683,6 +1685,7 @@ input, select, textarea {
 		}
 
 		#main article .response.input input:focus ~ label {
+			pointer-events: none;
 			position: absolute;
  			top: -1.5rem;
 			left: 0;
@@ -1948,3 +1951,8 @@ input, select, textarea {
     			filter: drop-shadow(2px 4px 6px black);
     		}
 
+		#main article#e4 .draggable {
+			display: inline;
+    			cursor: grab;
+    			font-weight: bold;
+		}
