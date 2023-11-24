@@ -1058,6 +1058,8 @@ input, select, textarea {
 		}
 
 		body #checkpoint1 {
+			cursor: pointer;
+			z-index: 100;
 			position: absolute;
 			width: 2rem;
 			height: 2rem;
@@ -1873,11 +1875,6 @@ input, select, textarea {
 
 		/* Puzzle-specific */
 
-		#main article#aW50 .hero {
-    			height: 16rem;
-			background-position-y: 27%;
-		}
-
 		#main article#p8 .hero {
     			height: 16rem;
 			background-position-y: 10%;
@@ -1890,6 +1887,10 @@ input, select, textarea {
 
 		#main article#p10 .hero {
 			height: 22rem;
+		}
+
+		#main article#p11 .hero {
+			background-position-y: 25%;
 		}
 
 		#main article#p12 .hero {
@@ -1967,8 +1968,8 @@ input, select, textarea {
 			display: inline;
     			cursor: grab;
     			font-weight: bold;
-    			position: absolute;
-    			top: 0.05rem;
-    			left: 10.68rem;
+    			position: relative;
+    			top: -0.125rem;
+    			left: 11.28rem;
     			font-size: 1rem;
 		}

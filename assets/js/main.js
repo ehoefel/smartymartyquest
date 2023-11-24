@@ -9,7 +9,7 @@ var currPage = null;
 
 function unlockCheckpoint1() {
 	intervals['c1'] = setInterval(function() {
-		if (location.hash == "#intro") {
+		if (currPage == "intro") {
 			showCheckpoint1();
 		}
 	}, 1000);
@@ -23,7 +23,7 @@ function showCheckpoint1() {
 					$("#checkpoint1").removeClass("active");
 				}, 300);
 			})
-			.css("animation-duration", "" + ($(window).height() + $(window).width())/200 + "s");
+			.css("animation-duration", "" + ($(window).height() + $(window).width())/150 + "s");
 }
 
 function hideCheckpoint1() {
@@ -335,14 +335,13 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "",
+		"value": "How was this technology from the 70s called?",
 	  },
 	  "response": {
-		"type": "multiple-choice",
-		"options": [
-		],
+		"type": "input",
+		"datatype": "text",
 		"validate": function(value) {
-		        return value.toLowerCase() == "iphone 12 pro";
+		        return value.toLowerCase().indexOf("betamax") >= 0;
 		}
 	  }
   },
@@ -669,7 +668,7 @@ var puzzles = {
 							button.classList.add("option");
 							button.innerHTML = option;
 							button.onclick = function(e) {
-								if (e.target !== this || !e.pointerType)
+								if (e.target !== this)
 									return;
 								console.log(e);
 								var value = e.target.innerHTML;
