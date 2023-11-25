@@ -6,6 +6,15 @@
 
 var intervals = {};
 var currPage = null;
+var skipIntro = false;
+var reachedEvilPuzzles = false;
+var solvedEvilPuzzles = false;
+
+function enableSkipIntro() {
+	skipIntro = true;
+	$("#begin").text("Continue");
+}
+    
 
 function unlockCheckpoint1() {
 	intervals['c1'] = setInterval(function() {
@@ -19,9 +28,7 @@ function showCheckpoint1() {
 	$("#checkpoint1:not(.active)").addClass("active")
 			.click(function() {
 				goToPage(puzzles["c1"].goto);
-				setTimeout(function() {
-					$("#checkpoint1").removeClass("active");
-				}, 300);
+				setTimeout(hideCheckpoint1, 300);
 			})
 			.css("animation-duration", "" + ($(window).height() + $(window).width())/150 + "s");
 }
@@ -37,32 +44,33 @@ function lockCheckpoint1() {
 }
 
 function unlockCheckpoint2() {
-	intervals['c1'] = setInterval(function() {
-		if (location.hash == "#intro") {
-			showCheckpoint1();
+	intervals['c2'] = setInterval(function() {
+		if (!currPage) {
+			showCheckpoint2();
 		}
 	}, 1000);
 }
 
 function showCheckpoint2() {
-	$("#checkpoint1:not(.active)").addClass("active")
+	$("#checkpoint2:not(.active)").addClass("active")
 			.click(function() {
-				goToPage(puzzles["c2"].goto);
+				$('body').addClass("evil");
+				$('#checkpoint2').addClass("used");
+				reachedEvilPuzzles = true;
 				setTimeout(function() {
-					$("#checkpoint1").removeClass("active");
-				}, 300);
-			})
-			.css("animation-duration", "" + ($(window).height() + $(window).width())/200 + "s");
+					$('#checkpoint2').addClass("flipped");
+				}, 2500);
+			});
 }
 
 function hideCheckpoint2() {
-	$("#checkpoint1.active").removeClass("active").prop("onclick", null);
+	$("#checkpoint2.active").removeClass("active").prop("onclick", null);
 
 }
 
 function lockCheckpoint2() {
-	intervals['c1'] && clearInterval(intervals['c1']);
-	hideCheckpoint1();
+	intervals['c2'] && clearInterval(intervals['c2']);
+	hideCheckpoint2();
 }
 
 
@@ -71,6 +79,7 @@ var puzzles = {
   "intro": {
 	  "title": "Intro",
 	  "onleave": hideCheckpoint1,
+	  "onenter": enableSkipIntro,
 	  "goto": "p1",
 	  "content": {
 		  "type": "audio",
@@ -330,7 +339,7 @@ var puzzles = {
 	  }
   },
   "p13": {
-	  "title": "Puzzle #13 - REDO",
+	  "title": "Puzzle #13",
 	  "goto": "p14",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -568,6 +577,15 @@ var puzzles = {
 
 	function goToPage(id) {
 		if (id) {
+			if (id == "intro" && skipIntro) {
+				id = "p1";
+				if (reachedEvilPuzzles) {
+					id = "e1";
+				}
+				if (solvedEvilPuzzles) {
+					debugger;
+				}
+			}
 			var article = window.$main_articles.filter('#' + id);
 			if (article.length > 0) {
 				window.$main._show(id);
@@ -651,6 +669,11 @@ var puzzles = {
 						input.placeholder = "Answer";
 						input.type = puzzle.response.datatype;
 						response.appendChild(input);
+						input.onkeypress = function(e) {
+    							if (e.key == "Enter") {
+								answerPuzzle(puzzle.response.validate(input.value));
+    							}
+						}
 						var label = document.createElement("label");
 						label.innerHTML = "Answer";
 						response.appendChild(label);
@@ -672,8 +695,11 @@ var puzzles = {
 									return;
 								console.log(e);
 								var value = e.target.innerHTML;
-								if (e.target.firstChild.nodeName == "INPUT")
+								if (e.target.firstChild.nodeName == "INPUT") {
 									value = e.target.firstChild.value;
+									if (!value.toLowerCase().endsWith(" pro"))
+										return;
+								}
 								answerPuzzle(puzzle.response.validate(value));
 							};
 							response.appendChild(button);
