@@ -10,6 +10,40 @@ var skipIntro = false;
 var reachedEvilPuzzles = false;
 var solvedEvilPuzzles = false;
 
+var speeches = {
+	'evil-entrance': [
+		{ 'class': '', 'duration': 1000 },
+		{ 'class': 'long-talk', 'duration': 2000 },
+		{ 'class': '', 'duration': 500 },
+		{ 'class': 'talking', 'duration': 4700 },
+		{ 'class': '', 'duration': 500 },
+		{ 'class': 'talking', 'duration': 7800 },
+		{ 'class': 'long-talk', 'duration': 3000 },
+		{ 'class': '', 'duration': 1000 },
+	]
+}
+
+function speak(tag, onFinish) {
+	$('#speech').html("<source src=\"/audio/" + tag + ".aac\" type=\"audio/mp4\"/>")[0].play();
+	var speech = speeches[tag];
+	var acctime = 0;
+	function runSpeechAnimation(classes, acctime) {
+		setTimeout(function() {
+			$('.edu').removeClass("talking long-talk")
+			.addClass(classes);
+		}, acctime);
+	}
+	for (var i = 0; i < speech.length; i++) {
+		runSpeechAnimation(speech[i].class, acctime);
+		acctime += speech[i].duration;
+	}
+
+	setTimeout(function() {
+		$('.edu').removeClass("talking long-talk");
+		onFinish();
+	}, acctime);
+}
+
 function enableSkipIntro() {
 	skipIntro = true;
 	$("#begin").text("Continue");
@@ -44,6 +78,7 @@ function lockCheckpoint1() {
 }
 
 function unlockCheckpoint2() {
+	lockCheckpoint1();
 	intervals['c2'] = setInterval(function() {
 		if (!currPage) {
 			showCheckpoint2();
@@ -52,13 +87,24 @@ function unlockCheckpoint2() {
 }
 
 function showCheckpoint2() {
+	if (reachedEvilPuzzles)
+		return;
+
 	$("#checkpoint2:not(.active)").addClass("active")
 			.click(function() {
+				if (reachedEvilPuzzles)
+					return;
+
 				$('body').addClass("evil");
 				$('#checkpoint2').addClass("used");
 				reachedEvilPuzzles = true;
 				setTimeout(function() {
 					$('#checkpoint2').addClass("flipped");
+					setTimeout(function() {
+						speak('evil-entrance', function() {
+							$('.edu').addClass("leaving");
+						});
+					}, 1000);
 				}, 2500);
 			});
 }
