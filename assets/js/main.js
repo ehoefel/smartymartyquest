@@ -7,6 +7,7 @@
 var intervals = {};
 var currPage = null;
 var skipIntro = false;
+var skipIntro2 = false;
 var reachedEvilPuzzles = false;
 var solvedEvilPuzzles = false;
 
@@ -46,6 +47,11 @@ function speak(tag, onFinish) {
 
 function enableSkipIntro() {
 	skipIntro = true;
+	$("#begin").text("Continue");
+}
+
+function enableSkipIntro2() {
+	skipIntro2 = true;
 	$("#begin").text("Continue");
 }
     
@@ -129,7 +135,7 @@ var puzzles = {
 	  "goto": "p1",
 	  "content": {
 		  "type": "audio",
-		  "value": "https://filesamples.com/samples/audio/mp3/Symphony%20No.6%20(1st%20movement).mp3"
+		  "value": "/audio/intro.mp3"
 	  },
 	  "response": {
 		"type": "multiple-choice",
@@ -143,7 +149,7 @@ var puzzles = {
 	  }
   },
   "p1": {
-	  "title": "Puzzle #1",
+	  "title": "Smarty Marty Puzzle #1",
 	  "goto": "p2",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
@@ -159,7 +165,7 @@ var puzzles = {
 	  }
   },
   "p2": {
-	  "title": "Puzzle #2",
+	  "title": "Smarty Marty Puzzle #2",
 	  "goto": "p3",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -180,7 +186,7 @@ var puzzles = {
 	  }
   },
   "p3": {
-	  "title": "Puzzle #3",
+	  "title": "Smarty Marty Puzzle #3",
 	  "goto": "p4",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -196,7 +202,7 @@ var puzzles = {
 	  }
   },
   "p4": {
-	  "title": "Puzzle #4",
+	  "title": "Smarty Marty Puzzle #4",
 	  "goto": "p5",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -217,7 +223,7 @@ var puzzles = {
 	  }
   },
   "p5": {
-	  "title": "Puzzle #5",
+	  "title": "Smarty Marty Puzzle #5",
 	  "goto": "p6",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -233,7 +239,7 @@ var puzzles = {
 	  }
   },
   "p6": {
-	  "title": "Puzzle #6",
+	  "title": "Smarty Marty Puzzle #6",
 	  "goto": "p7",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -254,7 +260,7 @@ var puzzles = {
 	  }
   },
   "p7": {
-	  "title": "Puzzle #?",
+	  "title": "Smarty Marty Puzzle #?",
 	  "goto": "c1",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -294,7 +300,7 @@ var puzzles = {
 	  }
   },
   "p8": {
-	  "title": "Puzzle #8",
+	  "title": "Smarty Marty Puzzle #8",
 	  "goto": "p9",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
@@ -310,7 +316,7 @@ var puzzles = {
 	  }
   },
   "p9": {
-	  "title": "Puzzle #9",
+	  "title": "Smarty Marty Puzzle #9",
 	  "goto": "p10",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
@@ -331,7 +337,7 @@ var puzzles = {
 	  }
   },
   "p10": {
-	  "title": "Puzzle #10",
+	  "title": "Smarty Marty Puzzle #10",
 	  "goto": "p11",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -347,7 +353,7 @@ var puzzles = {
 	  }
   },
   "p11": {
-	  "title": "Puzzle #11",
+	  "title": "Smarty Marty Puzzle #11",
 	  "goto": "p12",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -368,7 +374,7 @@ var puzzles = {
 	  }
   },
   "p12": {
-	  "title": "Puzzle #12",
+	  "title": "Smarty Marty Puzzle #12",
 	  "goto": "p13",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "imgtitle": "Those are alpacas :)",
@@ -385,7 +391,7 @@ var puzzles = {
 	  }
   },
   "p13": {
-	  "title": "Puzzle #13",
+	  "title": "Smarty Marty Puzzle #13",
 	  "goto": "p14",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -401,7 +407,7 @@ var puzzles = {
 	  }
   },
   "p14": {
-	  "title": "Puzzle #14",
+	  "title": "Smarty Marty Puzzle #14",
 	  "goto": "c2",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -440,8 +446,27 @@ var puzzles = {
 		}
 	  }
   },
+  "intro2": {
+	  "title": "Intro 2",
+	  "onleave": hideCheckpoint2,
+	  "onenter": enableSkipIntro2,
+	  "goto": "e1",
+	  "content": {
+		  "type": "audio",
+		  "value": "/audio/maja_save_us.mp3"
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "Continue",
+		],
+		"validate": function(value) {
+		        return true;
+		}
+	  }
+  },
   "e1": {
-	  "title": "Puzzle #-7",
+	  "title": "Smarty Farty Puzzle #1",
 	  "goto": "e2",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
@@ -457,7 +482,7 @@ var puzzles = {
 	  }
   },
   "e2": {
-	  "title": "Puzzle #-6",
+	  "title": "Smarty Farty Puzzle #2",
 	  "goto": "e3",
 	  "onenter": function() {
 		var hero = document.querySelector("#e2 .hero");
@@ -516,29 +541,8 @@ var puzzles = {
 	  }
   },
   "e3": {
-	  "title": "Puzzle #-<span class=\"clickable\" onclick=\"goToPage('e4')\">5</span>",
+	  "title": "Smarty Farty Puzzle #3",
 	  "goto": "e4",
-	  "readywhen": "Nov 21, 2023 09:31:25",
-	  "content": {
-		"type": "text",
-		"value": "2+2",
-	  },
-	  "response": {
-		"type": "multiple-choice",
-		"options": [
-		      "2",
-		      "3",
-		      "4",
-		      "6"
-		],
-		"validate": function(value) {
-		        return Number(value) == 5;
-		}
-	  }
-  },
-  "e4": {
-	  "title": "Puzzle #-4",
-	  "goto": "e5",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
@@ -557,9 +561,9 @@ var puzzles = {
 		}
 	  }
   },
-  "e5": {
-	  "title": "Puzzle #-3",
-	  "goto": "e6",
+  "e4": {
+	  "title": "Smarty Farty Puzzle #4",
+	  "goto": "e5",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
@@ -573,8 +577,29 @@ var puzzles = {
 		}
 	  }
   },
+  "e5": {
+	  "title": "Smarty Farty Puzzle #<span class=\"clickable\" onclick=\"goToPage('e6')\">5</span>",
+	  "goto": "e6",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "2+2",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "2",
+		      "3",
+		      "4",
+		      "6"
+		],
+		"validate": function(value) {
+		        return Number(value) == 5;
+		}
+	  }
+  },
   "e6": {
-	  "title": "Puzzle #-2",
+	  "title": "Smarty Farty Puzzle #6",
 	  "goto": "e7",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -596,7 +621,7 @@ var puzzles = {
   },
   //click next
   "e7": {
-	  "title": "Puzzle #-1",
+	  "title": "Smarty Farty Puzzle #7",
 	  "goto": "c3",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -626,8 +651,10 @@ var puzzles = {
 			if (id == "intro" && skipIntro) {
 				id = "p1";
 				if (reachedEvilPuzzles) {
-					id = "e1";
+					id = "intro2";
 				}
+				if (skipIntro2)
+					id = "e1";
 				if (solvedEvilPuzzles) {
 					debugger;
 				}
