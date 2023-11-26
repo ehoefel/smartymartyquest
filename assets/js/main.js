@@ -24,8 +24,19 @@ var speeches = {
 	]
 }
 
+function playSoundEffect(file) {
+	var o = $("#soundeffects").html("<source src=\"/audio/" + file + ".mp3\" type=\"audio/mp3\"/>")[0];
+	o.load();
+	setTimeout(function() {
+		o.play();
+	}, 500);
+
+}
+
 function speak(tag, onFinish) {
-	$('#speech').html("<source src=\"/audio/" + tag + ".aac\" type=\"audio/mp4\"/>")[0].play();
+	var o = $('#speech').html("<source src=\"/audio/" + tag + ".aac\" type=\"audio/mp4\"/>")[0];
+	o.load();
+	o.play();
 	var speech = speeches[tag];
 	var acctime = 0;
 	function runSpeechAnimation(classes, acctime) {
@@ -130,12 +141,13 @@ function lockCheckpoint2() {
 var puzzles = {
   "intro": {
 	  "title": "Intro",
+	  "sound": false,
 	  "onleave": hideCheckpoint1,
 	  "onenter": enableSkipIntro,
 	  "goto": "p1",
 	  "content": {
 		  "type": "audio",
-		  "value": "/audio/intro.mp3"
+		  "value": "/audio/intro1.mp3"
 	  },
 	  "response": {
 		"type": "multiple-choice",
@@ -149,7 +161,8 @@ var puzzles = {
 	  }
   },
   "p1": {
-	  "title": "Smarty Marty Puzzle #1",
+	  "title": "Puzzle #1",
+	  "sound": true,
 	  "goto": "p2",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
@@ -165,7 +178,8 @@ var puzzles = {
 	  }
   },
   "p2": {
-	  "title": "Smarty Marty Puzzle #2",
+	  "title": "Puzzle #2",
+	  "sound": true,
 	  "goto": "p3",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -186,7 +200,8 @@ var puzzles = {
 	  }
   },
   "p3": {
-	  "title": "Smarty Marty Puzzle #3",
+	  "title": "Puzzle #3",
+	  "sound": true,
 	  "goto": "p4",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -202,7 +217,8 @@ var puzzles = {
 	  }
   },
   "p4": {
-	  "title": "Smarty Marty Puzzle #4",
+	  "title": "Puzzle #4",
+	  "sound": true,
 	  "goto": "p5",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -223,7 +239,8 @@ var puzzles = {
 	  }
   },
   "p5": {
-	  "title": "Smarty Marty Puzzle #5",
+	  "title": "Puzzle #5",
+	  "sound": true,
 	  "goto": "p6",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -239,7 +256,8 @@ var puzzles = {
 	  }
   },
   "p6": {
-	  "title": "Smarty Marty Puzzle #6",
+	  "title": "Puzzle #6",
+	  "sound": true,
 	  "goto": "p7",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -260,7 +278,8 @@ var puzzles = {
 	  }
   },
   "p7": {
-	  "title": "Smarty Marty Puzzle #?",
+	  "title": "Puzzle #?",
+	  "sound": true,
 	  "goto": "c1",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -282,12 +301,13 @@ var puzzles = {
   },
   "c1": {
 	  "title": "Checkpoint",
+	  "sound": false,
 	  "goto": "p8",
 	  "onenter": unlockCheckpoint1,
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "audio",
-		"value": "",
+		"value": "/audio/checkpoint1.mp3",
 	  },
 	  "response": {
 		"type": "multiple-choice",
@@ -300,7 +320,8 @@ var puzzles = {
 	  }
   },
   "p8": {
-	  "title": "Smarty Marty Puzzle #8",
+	  "title": "Puzzle #8",
+	  "sound": true,
 	  "goto": "p9",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
@@ -316,7 +337,8 @@ var puzzles = {
 	  }
   },
   "p9": {
-	  "title": "Smarty Marty Puzzle #9",
+	  "title": "Puzzle #9",
+	  "sound": true,
 	  "goto": "p10",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
@@ -337,7 +359,8 @@ var puzzles = {
 	  }
   },
   "p10": {
-	  "title": "Smarty Marty Puzzle #10",
+	  "title": "Puzzle #10",
+	  "sound": true,
 	  "goto": "p11",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -353,7 +376,8 @@ var puzzles = {
 	  }
   },
   "p11": {
-	  "title": "Smarty Marty Puzzle #11",
+	  "title": "Puzzle #11",
+	  "sound": true,
 	  "goto": "p12",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -374,7 +398,8 @@ var puzzles = {
 	  }
   },
   "p12": {
-	  "title": "Smarty Marty Puzzle #12",
+	  "title": "Puzzle #12",
+	  "sound": true,
 	  "goto": "p13",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "imgtitle": "Those are alpacas :)",
@@ -391,7 +416,8 @@ var puzzles = {
 	  }
   },
   "p13": {
-	  "title": "Smarty Marty Puzzle #13",
+	  "title": "Puzzle #13",
+	  "sound": true,
 	  "goto": "p14",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -407,7 +433,8 @@ var puzzles = {
 	  }
   },
   "p14": {
-	  "title": "Smarty Marty Puzzle #14",
+	  "title": "Puzzle #14",
+	  "sound": true,
 	  "goto": "c2",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -429,6 +456,7 @@ var puzzles = {
   },
   "c2": {
 	  "title": "Checkpoint",
+	  "sound": false,
 	  "goto": "",
 	  "onenter": unlockCheckpoint2,
 	  "readywhen": "Nov 21, 2023 09:31:25",
@@ -448,6 +476,7 @@ var puzzles = {
   },
   "intro2": {
 	  "title": "Intro 2",
+	  "sound": false,
 	  "onleave": hideCheckpoint2,
 	  "onenter": enableSkipIntro2,
 	  "goto": "e1",
@@ -466,7 +495,8 @@ var puzzles = {
 	  }
   },
   "e1": {
-	  "title": "Smarty Farty Puzzle #1",
+	  "title": "Puzzle #1",
+	  "sound": true,
 	  "goto": "e2",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
@@ -482,7 +512,8 @@ var puzzles = {
 	  }
   },
   "e2": {
-	  "title": "Smarty Farty Puzzle #2",
+	  "title": "Puzzle #2",
+	  "sound": true,
 	  "goto": "e3",
 	  "onenter": function() {
 		var hero = document.querySelector("#e2 .hero");
@@ -541,7 +572,8 @@ var puzzles = {
 	  }
   },
   "e3": {
-	  "title": "Smarty Farty Puzzle #3",
+	  "title": "Puzzle #3",
+	  "sound": true,
 	  "goto": "e4",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -562,7 +594,8 @@ var puzzles = {
 	  }
   },
   "e4": {
-	  "title": "Smarty Farty Puzzle #4",
+	  "title": "Puzzle #4",
+	  "sound": true,
 	  "goto": "e5",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -578,7 +611,8 @@ var puzzles = {
 	  }
   },
   "e5": {
-	  "title": "Smarty Farty Puzzle #<span class=\"clickable\" onclick=\"goToPage('e6')\">5</span>",
+	  "title": "Puzzle #<span class=\"clickable\" onclick=\"goToPage('e6')\">5</span>",
+	  "sound": true,
 	  "goto": "e6",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -599,7 +633,8 @@ var puzzles = {
 	  }
   },
   "e6": {
-	  "title": "Smarty Farty Puzzle #6",
+	  "title": "Puzzle #6",
+	  "sound": true,
 	  "goto": "e7",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -621,7 +656,8 @@ var puzzles = {
   },
   //click next
   "e7": {
-	  "title": "Smarty Farty Puzzle #7",
+	  "title": "Puzzle #7",
+	  "sound": true,
 	  "goto": "c3",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -680,12 +716,20 @@ var puzzles = {
 
 	}
 
-	function answerPuzzle(valid) {
+	function answerPuzzle(valid, playSound) {
 		if (valid) {
 			goToNextPuzzle();
+			if (playSound) {
+				//var audioindex = Math.round(Math.random() * 6 + 1);
+				//playSoundEffect("right"+audioindex);
+			}
 		}
 		else {
 			fail();
+			if (playSound) {
+				var audioindex = Math.round(Math.random() * 3 + 1);
+				playSoundEffect("wrong"+audioindex);
+			}
 		}
 	}
 
@@ -744,7 +788,7 @@ var puzzles = {
 						response.appendChild(input);
 						input.onkeypress = function(e) {
     							if (e.key == "Enter") {
-								answerPuzzle(puzzle.response.validate(input.value));
+								answerPuzzle(puzzle.response.validate(input.value), puzzle.sound);
     							}
 						}
 						var label = document.createElement("label");
@@ -753,7 +797,7 @@ var puzzles = {
 						var button = document.createElement("button");
 						button.innerHTML = "Enter";
 						button.onclick = function() {
-							answerPuzzle(puzzle.response.validate(input.value));
+							answerPuzzle(puzzle.response.validate(input.value), puzzle.sound);
 						}
 						response.appendChild(button);
 						break;
@@ -773,7 +817,7 @@ var puzzles = {
 									if (!value.toLowerCase().endsWith(" pro"))
 										return;
 								}
-								answerPuzzle(puzzle.response.validate(value));
+								answerPuzzle(puzzle.response.validate(value), puzzle.sound);
 							};
 							response.appendChild(button);
 						}
@@ -1182,6 +1226,8 @@ setInterval(function() {
 			// Hide main, articles.
 				window.$main.hide();
 				window.$main_articles.hide();
+				var bg = new Audio("/audio/bg.mp3");
+				bg.play();
 
 })(jQuery);
 
