@@ -33,6 +33,8 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	overflow: hidden;
+  height: 100%;
+  margin: 0;
 }
 
 ol, ul {
@@ -1069,7 +1071,7 @@ input, select, textarea {
 			height: 2rem;
 			opacity: 0;
 			transition: opacity 2s linear;
-    			transition-delay: 3s;
+			transition-delay: 3s;
 		}
 
 		body #checkpoint1.active {
@@ -1080,7 +1082,7 @@ input, select, textarea {
 
 		body #checkpoint2 {
 			position: absolute;
-			bottom: 10vh;
+			bottom: 30vh;
 			right: 50vw;
 			opacity: 0;
 			transition: opacity 2s linear;
@@ -1099,15 +1101,17 @@ input, select, textarea {
 
 		body #checkpoint2 .front.face {
 			z-index: 20;
-			top: calc(50% - 1.5rem);
-			left: calc(50% - 1.5rem);
+			top: -5vh;
+			left: 50%;
+			width: 10vh;
+			height: 10vh;
 		}
 
 		body #checkpoint2 .back.face {
 			z-index: 10;
 			transform: rotateX(180deg);
-			bottom: -15vh;
-    			right: 10vw;
+			bottom: -7.5vh;
+			right: 5vw;
 			position: relative;
 		}
 
@@ -1117,36 +1121,58 @@ input, select, textarea {
 		}
 
 		body #checkpoint2 .front img {
-			cursor: pointer;
-			width: 3rem;
-			height: 3rem;
+      width: 100%;
+      height: 100%;
 			filter: drop-shadow(2px 4px 6px black);
 			animation-iteration-count: infinite !important;
 			animation-direction: alternate !important;
 			animation: shake 4s;
+      backface-visibility: hidden;
 		}
+
+		body #checkpoint2:not(.used):not(.flipped) .front img {
+			cursor: pointer;
+    }
 
 		body #checkpoint2.used .front img {
 			animation: shake 0.5s;
-		}
-
-		body #checkpoint2 .back img {
 		}
 
 		body #checkpoint2.flipped {
 			animation: 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) 0s 1 normal both running flip-2-hor-top-1;
 		}
 
+		.edu {
+      transition: width 6s ease-in-out;
+    }
+
+		body #checkpoint2 .edu {
+      width: 10vh;
+		}
+
+		body #checkpoint2.flipped .edu {
+      width: 15vh;
+		}
+
 		.edu img {
 			cursor: pointer;
 			filter: drop-shadow(2px 4px 6px black);
-			width: 20vh;
+			width: 100%;
 			position: absolute;
 		}
+
+		body #checkpoint2.flipped .edu img {
+			width: 20vh;
+    }
 
 		.edu img.face-1 {
 			filter: none;
 			z-index: 10;
+		}
+
+		.edu img.face-2 {
+			filter: none;
+			z-index: 8;
 		}
 
 		.edu.talking img.face-1 {
@@ -1177,6 +1203,18 @@ input, select, textarea {
     			bottom: calc(50% - 10vh);
     			right: 5rem;
 		}
+
+    #eduFinal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+    }
+
+    #eduFinal .edu img {
+      left: -10vh;
+      top: -18vh;
+
+    }
 
 @-webkit-keyframes leaving {
   0% {
@@ -1944,7 +1982,9 @@ input, select, textarea {
     			box-shadow: inset 0 0 0 1px bisque;
 		}
 
-		#main article .response.multiple-choice {
+		#main article .response.multiple-choice,
+		#main article .response.single-choice
+    {
     			display: grid;
     			grid-template-columns: repeat(2, 1fr);
     			justify-content: space-between;
@@ -1952,16 +1992,19 @@ input, select, textarea {
     			gap: 1rem;
 		}
 
-		#main article .response.multiple-choice:has(> :last-child:nth-child(1)) {
+		#main article .response.single-choice {
     			grid-template-columns: repeat(1, 1fr);
 		}
 
-		#main article .response.multiple-choice .option {
+		#main article .response.multiple-choice .option,
+		#main article .response.single-choice .option
+    {
     			color: bisque !important;
     			box-shadow: inset 0 0 0 1px bisque;
 		}
 
-		#main article .response.multiple-choice .option input {
+		#main article .response.multiple-choice .option input,
+		#main article .response.single-choice .option input {
 			background: transparent;
     			border: none;
     			font: inherit;
@@ -2112,6 +2155,10 @@ input, select, textarea {
 
 		/* Puzzle-specific */
 
+		#main article#p4 .hero {
+			background-position-y: top;
+		}
+
 		#main article#p8 .hero {
 			background-position-y: top;
 		}
@@ -2197,12 +2244,13 @@ input, select, textarea {
 			position: absolute;
     			z-index: 1;
     			right: 35%;
-    			width: 28%;
     			top: -19rem;
     			background-image: url(https://cdn.pixabay.com/photo/2017/05/31/22/56/the-hen-2361934_960_720.png);
     			height: 10rem;
+    			width: 15rem;
     			box-shadow: none;
     			filter: drop-shadow(2px 4px 6px black);
+          background-size: contain;
     		}
 
 		#main article#e3 .draggable {
