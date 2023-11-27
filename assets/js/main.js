@@ -8,6 +8,7 @@ var intervals = {};
 var currPage = null;
 var skipIntro = false;
 var skipIntro2 = false;
+var skipIntro3 = false;
 var reachedEvilPuzzles = false;
 var solvedEvilPuzzles = false;
 
@@ -56,6 +57,27 @@ function speak(tag, onFinish) {
 	}, acctime);
 }
 
+function eduDefeatedAnimation() {
+	$("intro3").css({"visibility": "hidden"});
+	$("#eduFinal .edu").addClass("entering");
+	$("#eduFinal").show();
+	speak('evil-conflict', function() {
+		$("intro3").removeClass("active").css({"visibility": "unset"}).addClass("active");
+	});
+	setTimeout(function() {
+		$("#zabi").addClass("entering").show();
+		setTimeout(function() {
+			$("#zabi").addClass("chasing");
+			$("#eduFinal .edu").addClass("running");
+			setTimeout(function() {
+				$("#zabi").addClass("leaving");
+				$("#eduFinal .edu").addClass("leaving");
+			}, 3000);
+		}, 3000);
+	}, 10000);
+
+}
+
 function enableSkipIntro() {
 	skipIntro = true;
 	$("#begin").text("Continue");
@@ -68,15 +90,16 @@ function enableSkipIntro2() {
     
 
 function unlockCheckpoint1() {
+	$("#begin").text("Continue");
 	intervals['c1'] = setInterval(function() {
-		if (currPage == "intro") {
+		if (!currPage) {
 			showCheckpoint1();
 		}
 	}, 1000);
 }
 
 function showCheckpoint1() {
-	$("#checkpoint1:not(.active)").addClass("active")
+	$("#checkpoint1:not(.active)").show().addClass("active")
 			.click(function() {
 				goToPage(puzzles["c1"].goto);
 				setTimeout(hideCheckpoint1, 300);
@@ -85,7 +108,7 @@ function showCheckpoint1() {
 }
 
 function hideCheckpoint1() {
-	$("#checkpoint1.active").removeClass("active").prop("onclick", null);
+	$("#checkpoint1.active").removeClass("active").prop("onclick", null).hide();
 
 }
 
@@ -95,6 +118,7 @@ function lockCheckpoint1() {
 }
 
 function unlockCheckpoint2() {
+	$("#begin").text("Continue").hide();
 	lockCheckpoint1();
 	intervals['c2'] = setInterval(function() {
 		if (!currPage) {
@@ -120,6 +144,7 @@ function showCheckpoint2() {
 					setTimeout(function() {
 						speak('evil-entrance', function() {
 							$('.edu').addClass("leaving");
+							$("#begin").text("Continue").show()[0].href = "#intro2";
 						});
 					}, 1000);
 				}, 2500);
@@ -134,6 +159,11 @@ function hideCheckpoint2() {
 function lockCheckpoint2() {
 	intervals['c2'] && clearInterval(intervals['c2']);
 	hideCheckpoint2();
+}
+
+
+function unlockCheckpoint3() {
+	solvedEvilPuzzles = true;
 }
 
 
@@ -171,7 +201,7 @@ var puzzles = {
 	  },
 	  "response": {
 		"type": "input",
-		"datatype": "string",
+		"datatype": "text",
 		"validate": function(value) {
 		        return value.toLowerCase().indexOf("Starry Night".toLowerCase()) >= 0;
 		}
@@ -223,18 +253,18 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "DNA stands for",
+		"value": "When is the Koala holiday celebrated?",
 	  },
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
-		      "Deoxyribonucleic Acid",
-		      "Dioxonocteric Acid",
-		      "Deltanucleic Acid",
-		      "Deoxyribonappetit Acid",
+		      "January 8th",
+		      "April 31st",
+		      "May 3rd",
+		      "August 15th",
 		],
 		"validate": function(value) {
-		        return value == "Deoxyribonucleic Acid";
+		        return value == "May 3rd";
 		}
 	  }
   },
@@ -330,7 +360,7 @@ var puzzles = {
 	  },
 	  "response": {
 		"type": "input",
-		"datatype": "string",
+		"datatype": "text",
 		"validate": function(value) {
 		        return value.toLowerCase().indexOf("Treachery of Images".toLowerCase()) >= 0;
 		}
@@ -505,7 +535,7 @@ var puzzles = {
 	  },
 	  "response": {
 		"type": "input",
-		"datatype": "string",
+		"datatype": "text",
 		"validate": function(value) {
 		        return ["it'sreallycomplicateD6969", "it'sverycomplicateD6969"].indexOf(value) >= 0;
 		}
@@ -600,7 +630,7 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "How <span class=\"clickable\" onclick=\"goToPage('e6')\">many</span> grains of sand are in this picture?",
+		"value": "How <span class=\"clickable\" onclick=\"goToPage('e5')\">many</span> grains of sand are in this picture?",
 	  },
 	  "response": {
 		"type": "input",
@@ -654,11 +684,10 @@ var puzzles = {
 		}
 	  }
   },
-  //click next
   "e7": {
 	  "title": "Puzzle #7",
 	  "sound": true,
-	  "goto": "c3",
+	  "goto": "intro3",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
@@ -674,6 +703,150 @@ var puzzles = {
 		],
 		"validate": function(value) {
 		        return value == "Michael";
+		}
+	  }
+  },
+  "intro3": {
+	  "title": "Checkpoint",
+	  "sound": false,
+	  "goto": "p15",
+	  "onenter": eduDefeatedAnimation,
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "audio",
+		"value": "",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "Continue",
+		],
+		"validate": function(value) {
+		        return true;
+		}
+	  }
+  },
+  "p15": {
+	  "title": "Puzzle #15",
+	  "sound": true,
+	  "goto": "p16",
+	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "content": {
+		"type": "text",
+		"value": "Who is the author of this painting?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "text",
+		"validate": function(value) {
+		        return value.toLowerCase().indexOf("Maja".toLowerCase()) >= 0;
+		}
+	  }
+  },
+  "p16": {
+	  "title": "Puzzle #16",
+	  "sound": true,
+	  "goto": "p17",
+	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "content": {
+		"type": "text",
+		"value": "What does ELF mean?",
+	  },
+	  "response": {
+		"type": "multiple-choice",
+		"options": [
+		      "Elbow, Limb, Foot",
+		      "Eye-Lashes Fun",
+		      "Every Look Fantastic",
+		      "Eyes, Lips, Face"
+		],
+		"validate": function(value) {
+		        return value == "Eyes, Lips, Face";
+		}
+	  }
+  },
+  "p17": {
+	  "title": "Puzzle #17",
+	  "sound": true,
+	  "goto": "p18",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "How many years are in <b>7670</b> days?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "number",
+		"validate": function(value) {
+		        return Number(value) === 21;
+		}
+	  }
+  },
+  "p18": {
+	  "title": "Puzzle #18",
+	  "sound": true,
+	  "goto": "p19",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "Can you identify the owner of this fingerprint?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "text",
+		"validate": function(value) {
+		        return value.toLowerCase().indexOf("abi") >= 0;
+		}
+	  }
+  },
+  "p19": {
+	  "title": "Puzzle #19",
+	  "sound": true,
+	  "goto": "p20",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "At the age of <b>21</b>, what movie Taylor Swift produced a song for?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "text",
+		"validate": function(value) {
+		        return value.toLowerCase().indexOf("Hunger Games".toLowerCase()) >= 0;
+		}
+	  }
+  },
+  "p20": {
+	  "title": "Puzzle #20",
+	  "sound": true,
+	  "goto": "p21",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "What does this machine make?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "text",
+		"validate": function(value) {
+		        return value.toLowerCase().indexOf("pop") >= 0;
+		}
+	  }
+  },
+  "p21": {
+	  "title": "Puzzle #21",
+	  "sound": true,
+	  "goto": "c2",
+	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "content": {
+		"type": "text",
+		"value": "Which one was your favorite puzzle?",
+	  },
+	  "response": {
+		"type": "input",
+		"datatype": "text",
+		"validate": function(value) {
+		        return true;
 		}
 	  }
   },
