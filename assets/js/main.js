@@ -50,7 +50,7 @@ var states = {
       lockCheckpoint2();
     }
   },
-  'evil-start': {
+  'evil-puzzles': {
     continue: 'e1',
     onenter: function() {
 			$('body').addClass("evil");
@@ -99,15 +99,48 @@ var speeches = {
 		{ 'class': '', 'duration': 1000 },
 	],
 	'evil-conflict': [
-		{ 'class': '', 'duration': 1000 },
-		{ 'class': 'long-talk', 'duration': 2000 },
+		{ 'class': '', 'duration': 1300 },
+		{ 'class': 'long-talk', 'duration': 2500 },
+		{ 'class': '', 'duration': 400 },
+		{ 'class': 'talking', 'duration': 4000 },
+		{ 'class': '', 'duration': 800 },
+		{ 'class': 'talking', 'duration': 4000 },
+		{ 'class': '', 'duration': 1100 },
+		{ 'class': 'talking', 'duration': 2400 },
+		{ 'class': '', 'duration': 1100 },
+		{ 'class': 'talking', 'duration': 10000 },
+	],
+	'zabi-enters': [ //total 8800
+		{ 'class': '', 'duration': 1700 },
+		{ 'class': 'long-talk', 'duration': 700 },
+		{ 'class': '', 'duration': 200 },
+		{ 'class': 'long-talk', 'duration': 800 },
+		{ 'class': '', 'duration': 750 },
+		{ 'class': 'long-talk', 'duration': 300 },
+		{ 'class': '', 'duration': 80 },
+		{ 'class': 'long-talk', 'duration': 660 },
 		{ 'class': '', 'duration': 500 },
-		{ 'class': 'talking', 'duration': 4700 },
-		{ 'class': '', 'duration': 500 },
-		{ 'class': 'talking', 'duration': 7800 },
-		{ 'class': 'long-talk', 'duration': 3000 },
+		{ 'class': 'long-talk', 'duration': 200 },
+		{ 'class': '', 'duration': 30 },
+		{ 'class': 'long-talk', 'duration': 1200 },
+		{ 'class': '', 'duration': 30 },
+		{ 'class': 'long-talk', 'duration': 500 },
+	],
+	'zabi-rawr': [
 		{ 'class': '', 'duration': 1000 },
-	]
+		{ 'class': 'rawr', 'duration': 1000 },
+		{ 'class': 'bark', 'duration': 240 },
+	],
+	'evil-decide-escape': [
+		{ 'class': '', 'duration': 1300 },
+		{ 'class': 'talking', 'duration': 2800 },
+		{ 'class': '', 'duration': 900 },
+		{ 'class': 'talking', 'duration': 3600 },
+	],
+	'edu-escape': [
+	],
+	'zabi-chase': [
+	],
 }
 
 function playSoundEffect(file) {
@@ -119,8 +152,8 @@ function playSoundEffect(file) {
 
 }
 
-function speak(tag, onFinish) {
-	var o = $('#speech').html("<source src=\"/audio/" + tag + ".aac\" type=\"audio/mp4\"/>")[0];
+function speak(speaker, tag, onFinish) {
+	var o = $('#speech-'+speaker).html("<source src=\"/audio/" + tag + ".mp3\" type=\"audio/mp4\"/>")[0];
 	o.load();
 	o.play();
 	var speech = speeches[tag];
@@ -138,28 +171,36 @@ function speak(tag, onFinish) {
 
 	setTimeout(function() {
 		$('.edu').removeClass("talking long-talk");
-		onFinish();
+		onFinish && onFinish();
 	}, acctime);
 }
 
 function eduDefeatedAnimation() {
-	$("intro3").css({"visibility": "hidden"});
-	$("#eduFinal .edu").addClass("entering");
-	$("#eduFinal").show();
-	speak('evil-conflict', function() {
-		$("intro3").removeClass("active").css({"visibility": "unset"}).addClass("active");
-	});
-	setTimeout(function() {
-		$("#zabi").addClass("entering").show();
-		setTimeout(function() {
-			$("#zabi").addClass("chasing");
-			$("#eduFinal .edu").addClass("running");
-			setTimeout(function() {
-				$("#zabi").addClass("leaving");
-				$("#eduFinal .edu").addClass("leaving");
-			}, 3000);
-		}, 3000);
-	}, 10000);
+	$("#intro3").addClass("interrupted");
+  setTimeout(function() {
+	  $("#eduFinal .edu").addClass("entering");
+	  $("#eduFinal").show();
+	  speak('edu', 'evil-conflict', function() {
+      setTimeout(function() {
+	  	  $("#zabi").addClass("entering").show();
+        setTimeout(function() {
+	        speak('edu', 'zabi-enters', function() {
+	          speak('zabi', 'zabi-rawr', function() {
+	            speak('edu', 'evil-decide-escape', function() {
+	              speak('edu', 'edu-escape');
+	              //speak('zabi', 'zabi-chase');
+                setTimeout(function() {
+	  	    	      $("#eduFinal .edu").addClass("escaping");
+	  	    	      $("#zabi").addClass("chasing");
+	  	            //$("intro3").removeClass("active").css({"visibility": "unset"}).addClass("active");
+                }, 1500);
+              });
+            });
+          });
+        }, 750);
+      }, 1500);
+	  });
+  }, 2500);
 
 }
 
@@ -172,7 +213,7 @@ function unlockCheckpoint1() {
 }
 
 function showCheckpoint1() {
-	$("#checkpoint1:not(.active)").show().addClass("active")
+	$("#checkpoint1").show().addClass("active")
 			.click(function() {
 				goToPage("continue");
 				setTimeout(hideCheckpoint1, 300);
@@ -181,7 +222,7 @@ function showCheckpoint1() {
 }
 
 function hideCheckpoint1() {
-	$("#checkpoint1.active").removeClass("active").prop("onclick", null).hide();
+	$("#checkpoint1").removeClass("active").prop("onclick", null).hide();
 }
 
 function lockCheckpoint1() {
@@ -208,7 +249,7 @@ function showCheckpoint2() {
 				setTimeout(function() {
 					$('#checkpoint2').addClass("flipped");
 					setTimeout(function() {
-						speak('evil-entrance', function() {
+						speak('edu', 'evil-entrance', function() {
 							$('.edu').addClass("leaving");
               setTimeout(function() {
                 changeState("evil");
@@ -575,7 +616,7 @@ var puzzles = {
   "intro2": {
 	  "title": "Intro 2",
 	  "sound": false,
-	  "onenter": function(){changeState("evil-start")},
+	  "onenter": function(){changeState("evil-puzzles")},
 	  "goto": "e1",
 	  "content": {
 		  "type": "audio",
@@ -1491,6 +1532,7 @@ setInterval(function() {
 				window.$main.hide();
 				window.$main_articles.hide();
 				var bg = new Audio("/audio/bg.mp3");
+        bg.volume = 0.2;
 				bg.play();
         changeState("evil");
 
