@@ -30,6 +30,15 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
 
+  #play {
+    position: absolute;
+    z-index: 100;
+    left: calc(50% - 1.5rem);
+    top: calc(50% - 1.5rem);
+    font-size: 3rem;
+    cursor: pointer;
+  }
+
 body {
 	line-height: 1;
 	overflow: hidden;

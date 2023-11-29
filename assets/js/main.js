@@ -6,10 +6,12 @@
 
 var intervals = {};
 var currPage = null;
-var currState = 'start';
+var currState = null;
+var ignoreReadywhen = true;
 
 var states = {
   'start': {
+    background: "/audio/bg-1.mp3",
     continue: 'intro',
     onenter: function() {
 			$('body').removeClass("evil");
@@ -17,6 +19,7 @@ var states = {
     }
   },
   'first': {
+    background: "/audio/bg-1.mp3",
     continue: 'p1',
     onenter: function() {
 			$('body').removeClass("evil");
@@ -25,6 +28,7 @@ var states = {
     }
   },
   'c1': {
+    background: "/audio/bg-2.mp3",
     continue: 'p1',
     onenter: function() {
 			$('body').removeClass("evil");
@@ -34,6 +38,7 @@ var states = {
     }
   },
   'c2': {
+    background: "/audio/bg-tricky.mp3",
     continue: '',
     onenter: function() {
 			$('body').removeClass("evil");
@@ -44,6 +49,7 @@ var states = {
     }
   },
   'evil': {
+    background: "/audio/bg-evil.mp3",
     continue: 'intro2',
     onenter: function(previous) {
 			$('body').addClass("evil");
@@ -55,6 +61,7 @@ var states = {
     }
   },
   'evil-puzzles': {
+    background: "/audio/bg-evil.mp3",
     continue: 'e1',
     onenter: function() {
 			$('body').addClass("evil");
@@ -63,6 +70,7 @@ var states = {
     }
   },
   'defeated': {
+    background: "/audio/bg-3.mp3",
     continue: 'intro3',
     onenter: function() {
 			$('body').removeClass("evil");
@@ -71,6 +79,7 @@ var states = {
     }
   },
   'last': {
+    background: "/audio/bg-last.mp3",
     continue: 'p15',
     onenter: function() {
 			$('body').removeClass("evil");
@@ -79,6 +88,7 @@ var states = {
     }
   },
   'done': {
+    background: "/audio/bg-last.mp3",
     continue: 'intro4',
     onenter: function() {
 			$('body').removeClass("evil");
@@ -88,9 +98,24 @@ var states = {
 }
 
 function changeState(state) {
+  if (!state)
+    state = "start";
   var oldState = currState;
   currState = state;
   states[currState].onenter(oldState);
+  localStorage.setItem("state", currState);
+
+  if (states[currState]?.background != states[oldState]?.background) {
+    $("#background").animate({volume: 0}, 1000, function() {
+ 			var bg = $("#background")[0];
+      bg.src = states[currState].background;
+      bg.loop = true;
+			bg.load();
+			bg.play();
+      $("#background").animate({volume: 0.2}, 1000);
+    });
+
+  }
 }
 
 var speeches = {
@@ -223,7 +248,7 @@ function unlockCheckpoint1() {
 function showCheckpoint1() {
 	$("#checkpoint1").show().addClass("active")
 			.click(function() {
-				goToPage("continue");
+				goToPage("p8");
 				setTimeout(hideCheckpoint1, 300);
 			})
 			.css("animation-duration", "" + ($(window).height() + $(window).width())/150 + "s");
@@ -252,13 +277,12 @@ function showCheckpoint2() {
 	$("#checkpoint2").show().addClass("active")
 			.click(function() {
 
-				$('body').addClass("evil");
 				$('#checkpoint2').addClass("used");
 				setTimeout(function() {
 					$('#checkpoint2').addClass("flipped");
 					setTimeout(function() {
 						speak('edu', 'evil-entrance', function() {
-							$('.edu').addClass("leaving");
+							$('#checkpoint2 .edu').addClass("leaving");
               setTimeout(function() {
                 changeState("evil");
               }, 1000);
@@ -287,9 +311,6 @@ function unlockCheckpoint3() {
 var puzzles = {
   "intro": {
 	  "title": "Intro",
-	  "sound": false,
-	  "onleave": hideCheckpoint1,
-	  "onenter": function(){ changeState("first")},
 	  "goto": "p1",
 	  "content": {
 		  "type": "audio",
@@ -308,10 +329,10 @@ var puzzles = {
   },
   "p1": {
 	  "title": "Puzzle #1",
-	  "sound": true,
+	  "onenter": function(){ changeState("first")},
 	  "onenter": hideCheckpoint1,
 	  "goto": "p2",
-	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "readywhen": "Dec 01, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "What is the name of this painting?",
@@ -326,7 +347,6 @@ var puzzles = {
   },
   "p2": {
 	  "title": "Puzzle #2",
-	  "sound": true,
 	  "goto": "p3",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -348,7 +368,6 @@ var puzzles = {
   },
   "p3": {
 	  "title": "Puzzle #3",
-	  "sound": true,
 	  "goto": "p4",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -365,7 +384,6 @@ var puzzles = {
   },
   "p4": {
 	  "title": "Puzzle #4",
-	  "sound": true,
 	  "goto": "p5",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -387,7 +405,6 @@ var puzzles = {
   },
   "p5": {
 	  "title": "Puzzle #5",
-	  "sound": true,
 	  "goto": "p6",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -404,7 +421,6 @@ var puzzles = {
   },
   "p6": {
 	  "title": "Puzzle #6",
-	  "sound": true,
 	  "goto": "p7",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -426,7 +442,6 @@ var puzzles = {
   },
   "p7": {
 	  "title": "Puzzle #?",
-	  "sound": true,
 	  "goto": "c1",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -448,7 +463,6 @@ var puzzles = {
   },
   "c1": {
 	  "title": "Checkpoint",
-	  "sound": false,
 	  "goto": "p8",
 	  "onenter": function(){changeState("c1")},
 	  "readywhen": "Nov 21, 2023 09:31:25",
@@ -468,9 +482,8 @@ var puzzles = {
   },
   "p8": {
 	  "title": "Puzzle #8",
-	  "sound": true,
 	  "goto": "p9",
-	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "readywhen": "Dec 02, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "What is the name of this painting?",
@@ -485,7 +498,6 @@ var puzzles = {
   },
   "p9": {
 	  "title": "Puzzle #9",
-	  "sound": true,
 	  "goto": "p10",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
@@ -507,7 +519,6 @@ var puzzles = {
   },
   "p10": {
 	  "title": "Puzzle #10",
-	  "sound": true,
 	  "goto": "p11",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -524,7 +535,6 @@ var puzzles = {
   },
   "p11": {
 	  "title": "Puzzle #11",
-	  "sound": true,
 	  "goto": "p12",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -546,7 +556,6 @@ var puzzles = {
   },
   "p12": {
 	  "title": "Puzzle #12",
-	  "sound": true,
 	  "goto": "p13",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "imgtitle": "Those are alpacas :)",
@@ -564,7 +573,6 @@ var puzzles = {
   },
   "p13": {
 	  "title": "Puzzle #13",
-	  "sound": true,
 	  "goto": "p14",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -581,7 +589,6 @@ var puzzles = {
   },
   "p14": {
 	  "title": "Puzzle #14",
-	  "sound": true,
 	  "goto": "c2",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -603,7 +610,6 @@ var puzzles = {
   },
   "c2": {
 	  "title": "Checkpoint",
-	  "sound": false,
 	  "goto": "",
 	  "onenter": function(){changeState("c2")},
 	  "readywhen": "Nov 21, 2023 09:31:25",
@@ -623,7 +629,6 @@ var puzzles = {
   },
   "intro2": {
 	  "title": "Intro 2",
-	  "sound": false,
 	  "onenter": function(){changeState("evil-puzzles")},
 	  "goto": "e1",
 	  "content": {
@@ -642,9 +647,8 @@ var puzzles = {
   },
   "e1": {
 	  "title": "Puzzle #1",
-	  "sound": true,
 	  "goto": "e2",
-	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "readywhen": "Dec 03, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "What is your WiFi password?",
@@ -659,7 +663,6 @@ var puzzles = {
   },
   "e2": {
 	  "title": "Puzzle #2",
-	  "sound": true,
 	  "goto": "e3",
 	  "onenter": function() {
 		var hero = document.querySelector("#e2 .hero");
@@ -739,7 +742,6 @@ var puzzles = {
   },
   "e3": {
 	  "title": "Puzzle #3",
-	  "sound": true,
 	  "goto": "e4",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -761,7 +763,6 @@ var puzzles = {
   },
   "e4": {
 	  "title": "Puzzle #4",
-	  "sound": true,
 	  "goto": "e5",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -778,7 +779,6 @@ var puzzles = {
   },
   "e5": {
 	  "title": "Puzzle #<span class=\"clickable\" onclick=\"goToPage('e6')\">5</span>",
-	  "sound": true,
 	  "goto": "e6",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -800,7 +800,6 @@ var puzzles = {
   },
   "e6": {
 	  "title": "Puzzle #6",
-	  "sound": true,
 	  "goto": "e7",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -822,7 +821,6 @@ var puzzles = {
   },
   "e7": {
 	  "title": "Puzzle #7",
-	  "sound": true,
 	  "goto": "intro3",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -844,7 +842,6 @@ var puzzles = {
   },
   "intro3": {
 	  "title": "Dog saves the day!",
-	  "sound": false,
 	  "goto": "p15",
 	  "onenter": eduDefeatedAnimation,
 	  "readywhen": "Nov 21, 2023 09:31:25",
@@ -865,9 +862,8 @@ var puzzles = {
   "p15": {
 	  "title": "Puzzle #15",
 	  "onenter": function(){changeState("last")},
-	  "sound": true,
 	  "goto": "p16",
-	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "readywhen": "Dec 04, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "Who is the author of this painting?",
@@ -887,7 +883,6 @@ var puzzles = {
   },
   "p16": {
 	  "title": "Puzzle #16",
-	  "sound": true,
 	  "goto": "p17",
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
@@ -909,7 +904,6 @@ var puzzles = {
   },
   "p17": {
 	  "title": "Puzzle #17",
-	  "sound": true,
 	  "goto": "p18",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -931,7 +925,6 @@ var puzzles = {
   },
   "p18": {
 	  "title": "Puzzle #18",
-	  "sound": true,
 	  "goto": "p19",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -948,7 +941,6 @@ var puzzles = {
   },
   "p19": {
 	  "title": "Puzzle #19",
-	  "sound": true,
 	  "goto": "p20",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -965,7 +957,6 @@ var puzzles = {
   },
   "p20": {
 	  "title": "Puzzle #20",
-	  "sound": true,
 	  "goto": "p21",
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
@@ -982,9 +973,8 @@ var puzzles = {
   },
   "p21": {
 	  "title": "Puzzle #21",
-	  "sound": true,
-	  "goto": "c2",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "goto": "intro4",
+	  "readywhen": "Dec 04, 2023 09:31:25",
 	  "content": {
 		"type": "text",
 		"value": "What is the answer to the next question?",
@@ -994,6 +984,22 @@ var puzzles = {
 		"datatype": "text",
 		"validate": function(value) {
       return value.toLowerCase().indexOf("yes") >= 0;
+		}
+	  }
+  },
+  "intro4": {
+	  "title": "So long and thanks for all the fun!",
+	  "goto": "",
+	  "readywhen": "Dec 05, 2023 17:00:00",
+	  "content": {
+		  "type": "audio",
+		  "value": "/audio/intro4.mp3"
+	  },
+	  "response": {
+		"type": "single-choice",
+		"options": [],
+		"validate": function(value) {
+		        return true;
 		}
 	  }
   },
@@ -1012,7 +1018,10 @@ var puzzles = {
 			if (article.length > 0) {
 				window.$main._show(id);
 				if (puzzles[id] && puzzles[id].onenter) {
+				  var readywhen = puzzles[id].readywhen;
+				  if (ignoreReadywhen || (new Date(readywhen).getTime() - new Date().getTime()) <= 3) {
 						puzzles[id].onenter();
+				  }
 				}
 			} else {
 				debugger;
@@ -1031,20 +1040,12 @@ var puzzles = {
 		goToPage("fail");
 	}
 
-	function answerPuzzle(valid, playSound) {
+	function answerPuzzle(valid) {
 		if (valid) {
 			goToNextPuzzle();
-			if (playSound) {
-				//var audioindex = Math.round(Math.random() * 6 + 1);
-				//playSoundEffect("right"+audioindex);
-			}
 		}
 		else {
 			fail();
-			if (playSound) {
-				var audioindex = Math.round(Math.random() * 3 + 1);
-				playSoundEffect("wrong"+audioindex);
-			}
 		}
 	}
 
@@ -1103,7 +1104,7 @@ var puzzles = {
 						response.appendChild(input);
 						input.onkeypress = function(e) {
     							if (e.key == "Enter") {
-								answerPuzzle(puzzle.response.validate(input.value), puzzle.sound);
+								answerPuzzle(puzzle.response.validate(input.value));
     							}
 						}
 						var label = document.createElement("label");
@@ -1112,7 +1113,7 @@ var puzzles = {
 						var button = document.createElement("button");
 						button.innerHTML = "Enter";
 						button.onclick = function() {
-							answerPuzzle(puzzle.response.validate(input.value), puzzle.sound);
+							answerPuzzle(puzzle.response.validate(input.value));
 						}
 						response.appendChild(button);
 						break;
@@ -1132,7 +1133,7 @@ var puzzles = {
 									if (!value.toLowerCase().endsWith(" pro"))
 										return;
 								}
-								answerPuzzle(puzzle.response.validate(value), puzzle.sound);
+								answerPuzzle(puzzle.response.validate(value));
 							};
 							response.appendChild(button);
 						}
@@ -1152,7 +1153,7 @@ var puzzles = {
 									if (!value.toLowerCase().endsWith(" pro"))
 										return;
 								}
-								answerPuzzle(puzzle.response.validate(value), puzzle.sound);
+								answerPuzzle(puzzle.response.validate(value));
 							};
 							response.appendChild(button);
 						}
@@ -1220,7 +1221,7 @@ setInterval(function() {
   // If the count down is over, write some text
   if (distance < 0) {
 	timer.setAttribute("running", "false");
-	window.$main._show(currPage);
+	location.reload();
   }
 }, 1000);
 
@@ -1237,7 +1238,13 @@ setInterval(function() {
 	// Play initial animations on page load.
 		$window.on('load', function() {
 			window.setTimeout(function() {
-				window.$body.removeClass('is-preload');
+
+        $("#play").click(function() {
+          changeState(localStorage.getItem("state") || "");
+          $("#play").remove();
+				  window.$body.removeClass('is-preload');
+        });
+
 			}, 100);
 		});
 
@@ -1289,7 +1296,7 @@ setInterval(function() {
 						return;
 
 				var readywhen = $article.attr("readywhen");
-				if (readywhen && (new Date(readywhen).getTime() - new Date().getTime()) > 3) {
+				if (!ignoreReadywhen && (new Date(readywhen).getTime() - new Date().getTime()) > 3) {
 					$article = window.$main_articles.filter('#notready');
 					$("#timer").attr("date", readywhen);
 				}
@@ -1549,10 +1556,6 @@ setInterval(function() {
 			// Hide main, articles.
 				window.$main.hide();
 				window.$main_articles.hide();
-				var bg = new Audio("/audio/bg.mp3");
-        bg.volume = 0.2;
-				bg.play();
-        changeState("evil");
 
 })(jQuery);
 
