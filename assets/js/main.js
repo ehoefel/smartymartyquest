@@ -865,10 +865,15 @@ var puzzles = {
 		"value": "Who is the author of this painting?",
 	  },
 	  "response": {
-		"type": "input",
-		"datatype": "text",
+		"type": "multiple-choice",
+		"options": [
+		      "Da Vinci",
+		      "Picasso",
+		      "Van Gogh",
+		      "Majinha"
+		],
 		"validate": function(value) {
-		        return value.toLowerCase().indexOf("Maja".toLowerCase()) >= 0;
+		        return value == "Majinha";
 		}
 	  }
   },
