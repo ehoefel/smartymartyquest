@@ -12,12 +12,14 @@ var states = {
   'start': {
     continue: 'intro',
     onenter: function() {
+			$('body').removeClass("evil");
       lockCheckpoint2();
     }
   },
   'first': {
     continue: 'p1',
     onenter: function() {
+			$('body').removeClass("evil");
 	    $("#begin").text("Continue");
       lockCheckpoint2();
     }
@@ -25,6 +27,7 @@ var states = {
   'c1': {
     continue: 'p1',
     onenter: function() {
+			$('body').removeClass("evil");
 	    $("#begin").text("Continue");
       unlockCheckpoint1();
       lockCheckpoint2();
@@ -33,6 +36,7 @@ var states = {
   'c2': {
     continue: '',
     onenter: function() {
+			$('body').removeClass("evil");
       $("#begin").text("Continue").parents("nav")
         .css({"visibility": "hidden", "opacity": 0});
       lockCheckpoint1();
@@ -69,6 +73,7 @@ var states = {
   'last': {
     continue: 'p15',
     onenter: function() {
+			$('body').removeClass("evil");
 	    $("#begin").text("Continue");
       lockCheckpoint2();
     }
@@ -76,6 +81,7 @@ var states = {
   'done': {
     continue: 'intro4',
     onenter: function() {
+			$('body').removeClass("evil");
 	    $("#begin").text("Continue");
     }
   }
@@ -187,13 +193,15 @@ function eduDefeatedAnimation() {
 	        speak('edu', 'zabi-enters', function() {
 	          speak('zabi', 'zabi-rawr', function() {
 	            speak('edu', 'evil-decide-escape', function() {
-	              speak('edu', 'edu-escape');
-	              //speak('zabi', 'zabi-chase');
+	              //speak('edu', 'edu-escape');
+	  	    	    $("#eduFinal .edu").addClass("escaping");
+	  	    	    $("#zabi").addClass("chasing");
+	              speak('zabi', 'zabi-chase');
                 setTimeout(function() {
-	  	    	      $("#eduFinal .edu").addClass("escaping");
-	  	    	      $("#zabi").addClass("chasing");
-	  	            //$("intro3").removeClass("active").css({"visibility": "unset"}).addClass("active");
-                }, 1500);
+	  	            $("#intro3").removeClass();
+	  	            $("#intro3").addClass("active");
+                  changeState("defeated");
+                }, 18000);
               });
             });
           });
@@ -835,14 +843,14 @@ var puzzles = {
 	  }
   },
   "intro3": {
-	  "title": "Checkpoint",
+	  "title": "Dog saves the day!",
 	  "sound": false,
 	  "goto": "p15",
 	  "onenter": eduDefeatedAnimation,
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
-		"type": "audio",
-		"value": "",
+		  "type": "audio",
+		  "value": "/audio/intro3.mp3"
 	  },
 	  "response": {
 		"type": "single-choice",
@@ -906,13 +914,18 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "How many years are in <b>7670</b> days?",
+		"value": "How is the French governmental system organized?",
 	  },
 	  "response": {
-		"type": "input",
-		"datatype": "number",
+		"type": "multiple-choice",
+		"options": [
+		      "Parliamentary system",
+		      "Presidential system",
+		      "Semi-parliamentary government",
+		      "Semi-presidential system"
+		],
 		"validate": function(value) {
-		        return Number(value) === 21;
+		        return value == "Semi-presidential system";
 		}
 	  }
   },
@@ -929,7 +942,7 @@ var puzzles = {
 		"type": "input",
 		"datatype": "text",
 		"validate": function(value) {
-		        return value.toLowerCase().indexOf("abi") >= 0;
+		        return value.toLowerCase().indexOf("abi") > 0;
 		}
 	  }
   },
@@ -974,13 +987,13 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "Which one was your favorite puzzle?",
+		"value": "What is the answer to the next question?",
 	  },
 	  "response": {
 		"type": "input",
 		"datatype": "text",
 		"validate": function(value) {
-		        return true;
+      return value.toLowerCase().indexOf("yes") >= 0;
 		}
 	  }
   },

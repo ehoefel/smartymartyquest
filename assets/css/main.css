@@ -1214,6 +1214,7 @@ input, select, textarea {
 			animation: chasing 15s;
       animation-timing-function: cubic-bezier(.68,-0.55,.27,1.55);
       animation-fill-mode: forwards;
+      animation-delay: 1500;;
     }
 
     #eduFinal {
@@ -1238,6 +1239,7 @@ input, select, textarea {
 			animation: escaping 15s;
       animation-timing-function: cubic-bezier(.28,-0.12,.36,1.1);
       animation-fill-mode: forwards;
+      animation-delay: 1500;;
     }
 
 @keyframes slide-in-right {
@@ -1270,33 +1272,59 @@ input, select, textarea {
 @keyframes escaping {
   0% {
             transform: translateX(0) rotate(0deg);
+            filter: blur(0);
   }
   11% {
             transform: translateX(calc(-50vw + 5vh)) rotate(0deg);
+            filter: blur(1px);
+  }
+  12% {
+            transform: translateX(calc(-50vw + 5vh)) rotate(0deg);
+            filter: blur(0px);
   }
   22% {
             transform: translate(calc(-50vw + 16.5vh), 10vh) rotate(90deg);
+            filter: blur(0px);
   }
   33% {
             transform: translate(calc(-50vw + 16.5vh), -37.5vh) rotate(90deg);
+            filter: blur(1px);
+  }
+  34% {
+            transform: translate(calc(-50vw + 16.5vh), -37.5vh) rotate(90deg);
+            filter: blur(0px);
   }
   44% {
             transform: translate(calc(-50vw + 5vh), -26vh) rotate(180deg);
+            filter: blur(0px);
   }
   55% {
             transform: translate(calc(50vw - 5vh), -26vh) rotate(180deg);
+            filter: blur(1px);
+  }
+  56% {
+            transform: translate(calc(50vw - 5vh), -26vh) rotate(180deg);
+            filter: blur(0px);
   }
   66% {
             transform: translate(calc(50vw - 16.5vh), -37vh) rotate(270deg);
+            filter: blur(0px);
   }
   77% {
             transform: translate(calc(50vw - 16.5vh), 52.5vh) rotate(270deg);
+            filter: blur(1px);
+  }
+  78% {
+            transform: translate(calc(50vw - 16.5vh), 52.5vh) rotate(270deg);
+            filter: blur(0px);
   }
   82% {
             transform: translate(calc(50vw - 5vh), 41vh) rotate(360deg);
+            filter: blur(0px);
   }
   100% {
             transform: translate(calc(-120vw - 5vh), 41vh) rotate(360deg);
+            filter: blur(2px);
   }
 }
 
@@ -1382,16 +1410,16 @@ input, select, textarea {
 
  @keyframes fade {
 	0% {
-		opacity: 1;
+		visibility: visible;
 	}
 	25% {
-		opacity: 1;
+		visibility: visible;
 	}
 	75% {
-		opacity: 0;
+		visibility: hidden;
 	}
 	100% {
-		opacity: 0;
+		visibility: hidden;
 	}
 }
 
@@ -2115,6 +2143,14 @@ input, select, textarea {
     			align-content: space-between;
     			gap: 1rem;
 		}
+
+		@media screen and (max-width: 590px) {
+		#main article .response.multiple-choice,
+		#main article .response.single-choice
+    {
+    			grid-template-columns: repeat(1, 1fr);
+		}
+  }
 
 		#main article .response.single-choice {
     			grid-template-columns: repeat(1, 1fr);
