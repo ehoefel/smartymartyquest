@@ -15,6 +15,7 @@ var states = {
     continue: 'intro',
     onenter: function() {
 			$('body').removeClass("evil");
+			$('body').removeClass("saved");
       lockCheckpoint2();
     }
   },
@@ -23,6 +24,7 @@ var states = {
     continue: 'p1',
     onenter: function() {
 			$('body').removeClass("evil");
+			$('body').removeClass("saved");
 	    $("#begin").text("Continue");
       lockCheckpoint2();
     }
@@ -32,6 +34,7 @@ var states = {
     continue: 'p1',
     onenter: function() {
 			$('body').removeClass("evil");
+			$('body').removeClass("saved");
 	    $("#begin").text("Continue");
       unlockCheckpoint1();
       lockCheckpoint2();
@@ -42,6 +45,7 @@ var states = {
     continue: '',
     onenter: function() {
 			$('body').removeClass("evil");
+			$('body').removeClass("saved");
       $("#begin").text("Continue").parents("nav")
         .css({"visibility": "hidden", "opacity": 0});
       lockCheckpoint1();
@@ -53,6 +57,7 @@ var states = {
     continue: 'intro2',
     onenter: function(previous) {
 			$('body').addClass("evil");
+			$('body').removeClass("saved");
       var b = $("#begin").text("Continue");
       if (previous == "c2") {
         b.parents("nav").css({"visibility": "unset", "opacity": 1});
@@ -65,6 +70,7 @@ var states = {
     continue: 'e1',
     onenter: function() {
 			$('body').addClass("evil");
+			$('body').removeClass("saved");
 	    $("#begin").text("Continue");
       lockCheckpoint2();
     }
@@ -74,6 +80,7 @@ var states = {
     continue: 'intro3',
     onenter: function() {
 			$('body').removeClass("evil");
+			$('body').addClass("saved");
 	    $("#begin").text("Continue");
       lockCheckpoint2();
     }
@@ -83,6 +90,7 @@ var states = {
     continue: 'p15',
     onenter: function() {
 			$('body').removeClass("evil");
+			$('body').addClass("saved");
 	    $("#begin").text("Continue");
       lockCheckpoint2();
     }
@@ -615,7 +623,7 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "audio",
-		"value": "",
+		"value": "/audio/evil-trick.mp3",
 	  },
 	  "response": {
 		"type": "single-choice",

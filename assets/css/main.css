@@ -943,6 +943,7 @@ input, select, textarea {
 		width: 100%;
 		height: 100vh;
 		z-index: 1;
+		transition: filter 2.5s ease-in-out;
 	}
 
 		#bg:before, #bg:after {
@@ -1006,15 +1007,11 @@ input, select, textarea {
 			background-color: #000000;
 		}
 	body.evil #bg {
-		background-image: url(https://static.vecteezy.com/system/resources/previews/001/962/117/non_2x/dark-red-abstract-blur-background-vector.jpg);
-    		background-position: center;
+    filter: saturate(5) hue-rotate(150deg);
 
 	}
-	body.evil #bg:after {
-    		opacity: 0;
-	}
-	body.saved #bg:after {
-    		opacity: 1;
+	body.saved #bg {
+    filter: saturate(5) hue-rotate(300deg);
 	}
 
 /* Wrapper */
