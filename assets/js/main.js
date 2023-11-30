@@ -141,7 +141,7 @@ var speeches = {
 		{ 'class': '', 'duration': 1100 },
 		{ 'class': 'talking', 'duration': 10000 },
 	],
-	'zabi-enters': [ //total 8800
+	'zabi-enters': [
 		{ 'class': '', 'duration': 1700 },
 		{ 'class': 'long-talk', 'duration': 700 },
 		{ 'class': '', 'duration': 200 },
@@ -539,18 +539,18 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "How many eyes does a honey bee have?",
+		"value": "How is the French governmental system organized?",
 	  },
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
-		      "2",
-		      "3",
-		      "4",
-		      "5",
+		      "Parliamentary system",
+		      "Presidential system",
+		      "Semi-parliamentary government",
+		      "Semi-presidential system"
 		],
 		"validate": function(value) {
-		        return Number(value) == 5;
+		        return value == "Semi-presidential system";
 		}
 	  }
   },
@@ -778,23 +778,25 @@ var puzzles = {
 	  }
   },
   "e5": {
-	  "title": "Puzzle #<span class=\"clickable\" onclick=\"goToPage('e6')\">5</span>",
+	  "title": "Puzzle #5",
 	  "goto": "e6",
 	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "onenter": function() {
+      $("article#e5 .close").click(function() {
+				event.preventDefault();
+				event.stopPropagation();
+        goToPage("e6");
+      });
+    },
 	  "content": {
 		"type": "text",
-		"value": "2+2",
+      "value": "Find x",
 	  },
 	  "response": {
-		"type": "multiple-choice",
-		"options": [
-		      "2",
-		      "3",
-		      "4",
-		      "6"
-		],
+		"type": "input",
+		"datatype": "number",
 		"validate": function(value) {
-		        return Number(value) == 5;
+		        return false;
 		}
 	  }
   },
@@ -833,7 +835,7 @@ var puzzles = {
 			"Michael",
 			"Ana-Lucia",
 			"Sayid",
-			"Kate",
+			"Charlie",
 		],
 		"validate": function(value) {
 		        return value == "Michael";
@@ -887,19 +889,14 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 07:31:25",
 	  "content": {
 		"type": "text",
-		"value": "What does ELF mean?",
+      "value": "What internet show has the slogan above?",
 	  },
 	  "response": {
-		"type": "multiple-choice",
-		"options": [
-		      "Elbow, Limb, Foot",
-		      "Eye-Lashes Fun",
-		      "Every Look Fantastic",
-		      "Eyes, Lips, Face"
-		],
-		"validate": function(value) {
-		        return value == "Eyes, Lips, Face";
-		}
+		  "type": "input",
+		  "datatype": "text",
+		  "validate": function(value) {
+        return value.toLowerCase().indexOf("crime junkie") >= 0;
+		  }
 	  }
   },
   "p17": {
@@ -908,18 +905,13 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "How is the French governmental system organized?",
+		"value": "2 + 2?",
 	  },
 	  "response": {
-		"type": "multiple-choice",
-		"options": [
-		      "Parliamentary system",
-		      "Presidential system",
-		      "Semi-parliamentary government",
-		      "Semi-presidential system"
-		],
+		"type": "input",
+		"datatype": "input",
 		"validate": function(value) {
-		        return value == "Semi-presidential system";
+		        return value == 5;
 		}
 	  }
   },
@@ -945,13 +937,13 @@ var puzzles = {
 	  "readywhen": "Nov 21, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "At the age of <b>21</b>, what movie Taylor Swift produced a song for?",
+		"value": "How old was Taylor Swift at the age of <b>21</b>?",
 	  },
 	  "response": {
 		"type": "input",
-		"datatype": "text",
+		"datatype": "number",
 		"validate": function(value) {
-		        return value.toLowerCase().indexOf("Hunger Games".toLowerCase()) >= 0;
+		        return value == 21;
 		}
 	  }
   },
@@ -1527,6 +1519,8 @@ setInterval(function() {
 					$('<div class="close">Close</div>')
 						.appendTo($this)
 						.on('click', function() {
+              if (this.parentElement.id == "e5")
+                return;
 							setTimeout(function() {
 							goToPage(null);
 							}, 200 + Math.random() * 200);
