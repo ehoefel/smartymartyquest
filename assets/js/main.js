@@ -71,7 +71,7 @@ var states = {
 			$('body').addClass("evil");
 			$('body').removeClass("saved");
       var b = $("#begin").text("Continue");
-      if (previous == "c2") {
+      if (previous == "evil-start") {
         b.parents("nav").css({"visibility": "unset", "opacity": 1});
       }
       lockCheckpoint2();
@@ -115,8 +115,7 @@ var states = {
     background: "",
     continue: 'intro4',
     onenter: function() {
-			$('body').removeClass("evil");
-			$('body').addClass("saved");
+			$('body').removeClass();
 	    $("#begin").text("Continue");
       lockCheckpoint2();
       lockCheckpoint1();
@@ -268,7 +267,9 @@ function unlockCheckpoint1() {
 	intervals['c1'] = setInterval(function() {
 		if (!currPage) {
 			showCheckpoint1();
-		}
+		} else {
+			hideCheckpoint1();
+    }
 	}, 1000);
 }
 
@@ -376,7 +377,7 @@ var puzzles = {
   "p2": {
 	  "title": "Puzzle #2",
 	  "goto": "p3",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 01, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "In bowling, three strikes in a row is called?",
@@ -397,7 +398,7 @@ var puzzles = {
   "p3": {
 	  "title": "Puzzle #3",
 	  "goto": "p4",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 01, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "Which number follows the sequence above?",
@@ -413,7 +414,7 @@ var puzzles = {
   "p4": {
 	  "title": "Puzzle #4",
 	  "goto": "p5",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 01, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "When is the Koala holiday celebrated?",
@@ -434,7 +435,7 @@ var puzzles = {
   "p5": {
 	  "title": "Puzzle #5",
 	  "goto": "p6",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 01, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "How many llamas are in this picture?",
@@ -450,7 +451,7 @@ var puzzles = {
   "p6": {
 	  "title": "Puzzle #6",
 	  "goto": "p7",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 01, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "How is this called?",
@@ -471,7 +472,7 @@ var puzzles = {
   "p7": {
 	  "title": "Puzzle #?",
 	  "goto": "c1",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 01, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "What is the number of this puzzle?",
@@ -491,9 +492,9 @@ var puzzles = {
   },
   "c1": {
 	  "title": "Checkpoint",
-	  "goto": "p8",
+	  "goto": "",
 	  "onenter": function(){changeState("c1")},
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 01, 2023 17:00:00",
 	  "content": {
 		"type": "audio",
 		"value": "/audio/checkpoint1.mp3",
@@ -527,7 +528,7 @@ var puzzles = {
   "p9": {
 	  "title": "Puzzle #9",
 	  "goto": "p10",
-	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "readywhen": "Dec 02, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "What is the English name of this movie?",
@@ -548,7 +549,7 @@ var puzzles = {
   "p10": {
 	  "title": "Puzzle #10",
 	  "goto": "p11",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 02, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "Given that the area of the blue squares is <b>1</b>, what is the area of the yellow square?",
@@ -564,7 +565,7 @@ var puzzles = {
   "p11": {
 	  "title": "Puzzle #11",
 	  "goto": "p12",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 02, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "How is the French governmental system organized?",
@@ -572,20 +573,20 @@ var puzzles = {
 	  "response": {
 		"type": "multiple-choice",
 		"options": [
-		      "Parliamentary system",
-		      "Presidential system",
-		      "Semi-parliamentary government",
-		      "Semi-presidential system"
+		      "Parliamentary",
+		      "Presidential",
+		      "Semi-parliamentary",
+		      "Semi-presidential"
 		],
 		"validate": function(value) {
-		        return value == "Semi-presidential system";
+		        return value == "Semi-presidential";
 		}
 	  }
   },
   "p12": {
 	  "title": "Puzzle #12",
 	  "goto": "p13",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 02, 2023 17:00:00",
 	  "imgtitle": "Those are alpacas :)",
 	  "content": {
 		"type": "text",
@@ -602,7 +603,7 @@ var puzzles = {
   "p13": {
 	  "title": "Puzzle #13",
 	  "goto": "p14",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 02, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "How was this technology from the 70s called?",
@@ -618,7 +619,7 @@ var puzzles = {
   "p14": {
 	  "title": "Puzzle #14",
 	  "goto": "c2",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 02, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "Which one was not an option in Puzzle #9?",
@@ -640,7 +641,7 @@ var puzzles = {
 	  "title": "Checkpoint",
 	  "goto": "",
 	  "onenter": function(){changeState("c2")},
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 02, 2023 17:00:00",
 	  "content": {
 		"type": "audio",
 		"value": "/audio/evil-trick.mp3",
@@ -658,6 +659,7 @@ var puzzles = {
   "intro2": {
 	  "title": "Intro 2",
 	  "onenter": function(){changeState("evil-puzzles")},
+	  "readywhen": "Dec 03, 2023 17:00:00",
 	  "goto": "e1",
 	  "content": {
 		  "type": "audio",
@@ -748,7 +750,7 @@ var puzzles = {
 		window.addEventListener('touchend', touchEnd, false);
 
 	  },
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 03, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "Which one of these is not a kind of Turkey",
@@ -771,7 +773,7 @@ var puzzles = {
   "e3": {
 	  "title": "Puzzle #3",
 	  "goto": "e4",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 03, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": '<span draggable="true" class="draggable" ondragstart="dragstart_handler(event);" ondragend="dragend_handler(event);" onclick="cheat_e3()">ˆ</span>How do you spell <em>Sí-wu-plate</em> properly?',
@@ -792,7 +794,7 @@ var puzzles = {
   "e4": {
 	  "title": "Puzzle #4",
 	  "goto": "e5",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 03, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "How <span class=\"clickable\" onclick=\"goToPage('e5')\">many</span> grains of sand are in this picture?",
@@ -808,7 +810,7 @@ var puzzles = {
   "e5": {
 	  "title": "Puzzle #5",
 	  "goto": "e6",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 03, 2023 17:00:00",
 	  "onenter": function() {
       $("article#e5 .close").click(function() {
 				event.preventDefault();
@@ -831,7 +833,7 @@ var puzzles = {
   "e6": {
 	  "title": "Puzzle #6",
 	  "goto": "e7",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 03, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "Which iPhone is this?",
@@ -852,7 +854,7 @@ var puzzles = {
   "e7": {
 	  "title": "Puzzle #7",
 	  "goto": "intro3",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 03, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "Which character kills two people in the season 2 of Lost?",
@@ -874,7 +876,7 @@ var puzzles = {
 	  "title": "Dog saves the day!",
 	  "goto": "p15",
 	  "onenter": eduDefeatedAnimation,
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 03, 2023 17:00:00",
 	  "content": {
 		  "type": "audio",
 		  "value": "/audio/intro3.mp3"
@@ -914,7 +916,7 @@ var puzzles = {
   "p16": {
 	  "title": "Puzzle #16",
 	  "goto": "p17",
-	  "readywhen": "Nov 21, 2023 07:31:25",
+	  "readywhen": "Dec 04, 2023 17:00:00",
 	  "content": {
 		"type": "text",
       "value": "What internet show has the slogan above?",
@@ -930,7 +932,7 @@ var puzzles = {
   "p17": {
 	  "title": "Puzzle #17",
 	  "goto": "p18",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 04, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "2 + 2?",
@@ -946,7 +948,7 @@ var puzzles = {
   "p18": {
 	  "title": "Puzzle #18",
 	  "goto": "p19",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 04, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "Can you identify the owner of this fingerprint?",
@@ -962,7 +964,7 @@ var puzzles = {
   "p19": {
 	  "title": "Puzzle #19",
 	  "goto": "p20",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 04, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "How old was Taylor Swift at the age of <b>21</b>?",
@@ -978,7 +980,7 @@ var puzzles = {
   "p20": {
 	  "title": "Puzzle #20",
 	  "goto": "p21",
-	  "readywhen": "Nov 21, 2023 09:31:25",
+	  "readywhen": "Dec 04, 2023 17:00:00",
 	  "content": {
 		"type": "text",
 		"value": "What does this machine make?",
@@ -994,7 +996,7 @@ var puzzles = {
   "p21": {
 	  "title": "Puzzle #21",
 	  "goto": "intro4",
-	  "readywhen": "Dec 04, 2023 09:31:25",
+	  "readywhen": "Dec 04, 2023 17:00:00",
 	  "content": {
 		"type": "text",
       "value": "What is the answer to the next <b>question</b>?",
@@ -1030,7 +1032,7 @@ var puzzles = {
 	}
 
 	function goToPage(id) {
-		if (id) {
+		if (id && id != "home") {
 			if (id == "continue") {
         id = states[currState].continue;
       }
@@ -1049,6 +1051,7 @@ var puzzles = {
 				window.$main._show("notfound");
 			}
 		} else {
+      id = null;
 			window.$main._hide();
 		}
 		currPage = id;
