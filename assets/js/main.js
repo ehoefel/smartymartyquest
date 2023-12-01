@@ -17,6 +17,7 @@ var states = {
 			$('body').removeClass("evil");
 			$('body').removeClass("saved");
       lockCheckpoint2();
+      lockCheckpoint1();
     }
   },
   'first': {
@@ -27,6 +28,7 @@ var states = {
 			$('body').removeClass("saved");
 	    $("#begin").text("Continue");
       lockCheckpoint2();
+      lockCheckpoint1();
     }
   },
   'c1': {
@@ -52,6 +54,16 @@ var states = {
       unlockCheckpoint2();
     }
   },
+  'evil-start': {
+    background: "/audio/bg-evil.mp3",
+    continue: '',
+    onenter: function(previous) {
+			$('body').addClass("evil");
+			$('body').removeClass("saved");
+      var b = $("#begin").text("Continue");
+      lockCheckpoint1();
+    }
+  },
   'evil': {
     background: "/audio/bg-evil.mp3",
     continue: 'intro2',
@@ -63,6 +75,7 @@ var states = {
         b.parents("nav").css({"visibility": "unset", "opacity": 1});
       }
       lockCheckpoint2();
+      lockCheckpoint1();
     }
   },
   'evil-puzzles': {
@@ -73,6 +86,7 @@ var states = {
 			$('body').removeClass("saved");
 	    $("#begin").text("Continue");
       lockCheckpoint2();
+      lockCheckpoint1();
     }
   },
   'defeated': {
@@ -83,6 +97,7 @@ var states = {
 			$('body').addClass("saved");
 	    $("#begin").text("Continue");
       lockCheckpoint2();
+      lockCheckpoint1();
     }
   },
   'last': {
@@ -93,14 +108,18 @@ var states = {
 			$('body').addClass("saved");
 	    $("#begin").text("Continue");
       lockCheckpoint2();
+      lockCheckpoint1();
     }
   },
   'done': {
-    background: "/audio/bg-last.mp3",
+    background: "",
     continue: 'intro4',
     onenter: function() {
 			$('body').removeClass("evil");
+			$('body').addClass("saved");
 	    $("#begin").text("Continue");
+      lockCheckpoint2();
+      lockCheckpoint1();
     }
   }
 }
@@ -226,7 +245,7 @@ function eduDefeatedAnimation() {
 	        speak('edu', 'zabi-enters', function() {
 	          speak('zabi', 'zabi-rawr', function() {
 	            speak('edu', 'evil-decide-escape', function() {
-	              //speak('edu', 'edu-escape');
+	              speak('edu', 'edu-escape');
 	  	    	    $("#eduFinal .edu").addClass("escaping");
 	  	    	    $("#zabi").addClass("chasing");
 	              speak('zabi', 'zabi-chase');
@@ -289,11 +308,12 @@ function showCheckpoint2() {
 				setTimeout(function() {
 					$('#checkpoint2').addClass("flipped");
 					setTimeout(function() {
+            changeState("evil-start");
 						speak('edu', 'evil-entrance', function() {
 							$('#checkpoint2 .edu').addClass("leaving");
               setTimeout(function() {
                 changeState("evil");
-              }, 1000);
+              }, 500);
 						});
 					}, 1000);
 				}, 2500);
@@ -977,7 +997,7 @@ var puzzles = {
 	  "readywhen": "Dec 04, 2023 09:31:25",
 	  "content": {
 		"type": "text",
-		"value": "What is the answer to the next question?",
+      "value": "What is the answer to the next <b>question</b>?",
 	  },
 	  "response": {
 		"type": "input",
@@ -988,8 +1008,9 @@ var puzzles = {
 	  }
   },
   "intro4": {
-	  "title": "So long and thanks for all the fun!",
+	  "title": "We're counting on you!",
 	  "goto": "",
+	  "onenter": function(){changeState("done")},
 	  "readywhen": "Dec 05, 2023 17:00:00",
 	  "content": {
 		  "type": "audio",
@@ -1126,7 +1147,6 @@ var puzzles = {
 							button.onclick = function(e) {
 								if (e.target !== this)
 									return;
-								console.log(e);
 								var value = e.target.innerHTML;
 								if (e.target.firstChild.nodeName == "INPUT") {
 									value = e.target.firstChild.value;
@@ -1563,28 +1583,23 @@ setInterval(function() {
 
 
 function dragstart_handler(ev) {
- console.log("dragStart");
 }
 function dragover_handler(ev) {
- console.log("dragOver");
  ev.preventDefault();
 }
 function drop_handler(ev) {
-  console.log("Drop");
   ev.preventDefault();
   ev.target.parentNode.innerHTML = "S'il vous plaît";
   var src = document.querySelectorAll('.draggable')[0];
   src.parentNode.removeChild(src);
 }
 function dragend_handler(ev) {
-  console.log("dragEnd");
   ev.preventDefault();
 }
 function cheat_e3(e) {
   drop_handler({"target": $("#e3target")[0], "preventDefault": function(){}});
 }
 function cheat_e6(ev) {
-  console.log(ev);
   if (ev.target.value.toLowerCase() === 'iphone 12 pro') {
     ev.target.parentNode.click();
   }

@@ -1117,7 +1117,6 @@ input, select, textarea {
 			z-index: 10;
 			transform: rotateX(180deg);
 			bottom: -7.5vh;
-			right: 5vw;
 			position: relative;
 		}
 
@@ -1220,7 +1219,7 @@ input, select, textarea {
 			animation: chasing 15s;
       animation-timing-function: cubic-bezier(.68,-0.55,.27,1.55);
       animation-fill-mode: forwards;
-      animation-delay: 1500;;
+      animation-delay: 2000;
     }
 
     #eduFinal {
@@ -1245,7 +1244,7 @@ input, select, textarea {
 			animation: escaping 15s;
       animation-timing-function: cubic-bezier(.28,-0.12,.36,1.1);
       animation-fill-mode: forwards;
-      animation-delay: 1500;;
+      animation-delay: 2000;
     }
 
 @keyframes slide-in-right {
@@ -2421,10 +2420,22 @@ input, select, textarea {
 
 		#main article#e3 .draggable {
 			display: inline;
-    			cursor: grab;
-    			font-weight: bold;
-    			position: relative;
-    			top: -0.125rem;
-    			left: 11.28rem;
-    			font-size: 1rem;
+			cursor: grab;
+			font-weight: bold;
+			position: relative;
+			top: -0.125rem;
+			left: 11.28rem;
+			font-size: 1rem;
+		}
+
+		#main article#p16 .hero {
+			height: 16rem;
+		}
+
+		#main article#p18 .hero {
+			height: 16rem;
+		}
+
+		#main article#p20 .hero {
+			height: 16rem;
 		}
