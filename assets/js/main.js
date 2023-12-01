@@ -7,7 +7,7 @@
 var intervals = {};
 var currPage = null;
 var currState = null;
-var ignoreReadywhen = true;
+var ignoreReadywhen = false;
 
 var states = {
   'start': {
